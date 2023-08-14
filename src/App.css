@@ -46,3 +46,7 @@ color: #000;
 .navBg {
 background-color: #87ceeb;
 }
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+}

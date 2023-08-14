@@ -15,6 +15,7 @@ function navbar() {
         
         <Navbar className="navBg" expand="lg"  >
           <Container>
+            
             <Navbar.Brand as={Link} to="/">INSURANCE</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
