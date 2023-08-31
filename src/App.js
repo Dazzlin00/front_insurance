@@ -12,8 +12,9 @@ import Politics from "./components/politics";
 import Dashboard from "./components/dashboard";
 import Accidents from "./components/accidents";
 import Reports from "./components/reports";
-
 import Policies from "./components/policies";
+import SignUp from "./components/signUp";
+import NewPassword from "./components/newPassword";
 
 function App() {
   return (
@@ -29,19 +30,24 @@ function App() {
               <Route path="contact" element={<Contact />}></Route>
               <Route path="login" element={<Login />}></Route>
               <Route path="*" element={<Navigate replace to="/" />}></Route>
+              <Route path="signUp" element={<SignUp />}></Route>
             </Route>
 
             <Route path="/" element={<NavbarDashboard />}>
-            <Route path="dashboard" element={<Dashboard />}></Route>
-            <Route path="policies" element={<Policies />}></Route>
-            <Route path="accidents" element={<Accidents />}></Route>
-            
-            <Route path="reports" element={<Reports />}></Route>
-           
+              <Route path="dashboard" element={<Dashboard />}></Route>
+              <Route path="policies" element={<Policies />}></Route>
+              <Route path="accidents" element={<Accidents />}></Route>
+
+              <Route path="reports" element={<Reports />}></Route>
+
+              <Route path="newPassword" element={<NewPassword/>}></Route>
+
 
 
             </Route>
-           
+
+
+
           </Routes>
         </AuthProvider>
       </BrowserRouter>

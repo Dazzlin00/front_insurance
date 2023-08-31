@@ -50,3 +50,29 @@ background-color: #87ceeb;
   max-width: 500px;
   margin: 0 auto;
 }
+
+.tittleLeft{
+  text-align: left;
+
+}
+
+.txtJustify{
+  text-align: justify;
+}
+
+.vh-500{
+  margin-top: 10px !important;
+  margin-bottom: 30px;
+
+}
+
+.footerBlack{
+  background-color: #000;
+  color: white;
+  box-sizing: 0;
+}
+
+.text-left{
+  text-align: left;
+  margin-bottom: 9px;
+}
