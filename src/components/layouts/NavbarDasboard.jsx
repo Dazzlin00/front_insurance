@@ -20,7 +20,7 @@ const NavbarDashboard = () => {
     <>
       <Navbar className="navBg" expand="lg">
         <Container>
-          <Navbar.Brand>INSURANCE</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/dashboard">INSURANCE</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
