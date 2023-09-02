@@ -94,7 +94,10 @@ const Login = () => {
                       >
                         <p className="small">
                           <a className="text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="#!">
-                            ¿Haz olvidado tu contraseña?
+                            
+                            <Link to="/newPassword" >
+                          ¿Haz olvidado tu contraseña?
+                        </Link>
                           </a>
                         </p>
                       </Form.Group>

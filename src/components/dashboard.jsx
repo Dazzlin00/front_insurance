@@ -1,26 +1,124 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import axios from "axios";
 
 import useAuthContext from "../context/AuthContext";
+const endpoint = "http://localhost:8000/api";
 
 const Dashboard = () => {
+  const [polizas, setPolizas] = useState([]);
+  const [siniestros, setSiniestros] = useState([]);
+
   const { user, getUser } = useAuthContext();
 
   useEffect(() => {
     if (!user) {
       getUser();
-      console.log(user?.data.role);
     }
   }, [user, getUser]);
+  useEffect(() => {
+    if (user?.data.roles.includes("user")) {
+      getPolizas();
+      getSiniestros();
+    } else if (user?.data.roles.includes("agent")) {
+      getAllPolizas();
+      getAllSiniestros ();
+    }
+  }, [user]);
+  const getPolizas = async () => {
+    const response = await axios.get(`${endpoint}/poliza`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      // La solicitud se realizó correctamente
+      setPolizas(response.data);
+      // Haz algo con las polizas
+    } 
+    
+    else {
+      // La solicitud falló
+      const error = response.error;
+      console.log(error);
+      // Haz algo con el error
+    }
+  };
+
+  const getAllPolizas = async () => {
+
+    const response = await axios.get(`${endpoint}/polizas`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      // La solicitud se realizó correctamente
+      setPolizas(response.data);
+      // Haz algo con las polizas
+    } 
+    
+    else {
+      // La solicitud falló
+      const error = response.error;
+      console.log(error);
+      // Haz algo con el error
+    }
+  
+   
+  };
+  
+
+
+  const getSiniestros = async () => {
+    
+      const response = await axios.get(`${endpoint}/siniestro`, {
+        withCredentials: true,
+      });
+
+      if (response.status === 200) {
+        // La solicitud se realizó correctamente
+        setSiniestros(response.data);
+        // Haz algo con las polizas
+      } 
+      
+      else {
+        // La solicitud falló
+        const error = response.error;
+        console.log(error);
+        // Haz algo con el error
+      }
+   
+     
+  };
+  const getAllSiniestros = async () => {
+    
+    const response = await axios.get(`${endpoint}/siniestros`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      // La solicitud se realizó correctamente
+      setSiniestros(response.data);
+      // Haz algo con las polizas
+    } 
+    
+    else {
+      // La solicitud falló
+      const error = response.error;
+      console.log(error);
+      // Haz algo con el error
+    }
+ 
+   
+};
+ 
   return (
     <div>
-     
       {user && (
         <div>
-            {/* CLIENTE */}
+          {/* CLIENTE */}
           {user?.data.roles.includes("user") && (
             <Container>
-             ¡Bienvenido, {user?.data.name}!
+              ¡Bienvenido, {user?.data.name}!
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
                   <Card className="shadow">
@@ -39,24 +137,14 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>XXXXXXXXX</td>
-                              <td>0000-00-00</td>
-                              <td>0000-00-00</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>XXXXXXXXX</td>
-                              <td>0000-00-00</td>
-                              <td>0000-00-00</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>XXXXXXXXX</td>
-                              <td>0000-00-00</td>
-                              <td>0000-00-00</td>
-                            </tr>
+                            {polizas.map((poliza, index) => (
+                              <tr key={index + 1}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{poliza.descripcion}</td>
+                                <td>{poliza.fecha_inicio}</td>
+                                <td>{poliza.fecha_vencimiento}</td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
@@ -70,8 +158,29 @@ const Dashboard = () => {
                     <div className="card-header">
                       <h5 className="card-title">Siniestros</h5>
                     </div>
+
                     <Card.Body>
-                      <div className="mb-3 mt-md-4"></div>
+                      <div className="mb-3 mt-md-4">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Descripción</th>
+                              <th scope="col">Fecha de Reporte</th>
+                              <th scope="col">Fecha de Solucion</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {siniestros.map((siniestro, index) => (
+                              <tr key={index + 1}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{siniestro.descripcion}</td>
+                                <td>{siniestro.fecha_reporte}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -79,10 +188,10 @@ const Dashboard = () => {
             </Container>
           )}
 
-           {/* Agente */}
+          {/* Agente */}
           {user?.data.roles.includes("agent") && (
             <Container>
-             ¡Bienvenido, {user?.data.name}!
+              ¡Bienvenido, {user?.data.name}!
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
                   <Card className="shadow">
@@ -101,24 +210,14 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <th scope="row">1</th>
-                              <td>XXXXXXXXX</td>
-                              <td>@usuario</td>
-                              <td>0000-00-00</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">2</th>
-                              <td>XXXXXXXXX</td>
-                              <td>@usuario</td>
-                              <td>0000-00-00</td>
-                            </tr>
-                            <tr>
-                              <th scope="row">3</th>
-                              <td>XXXXXXXXX</td>
-                              <td>@usuario</td>
-                              <td>0000-00-00</td>
-                            </tr>
+                            {polizas.map((poliza, index) => (
+                              <tr key={index + 1}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{poliza.num_poliza}</td>
+                                <td>{poliza.name}</td>
+                                <td>{poliza.fecha_inicio}</td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
@@ -133,7 +232,28 @@ const Dashboard = () => {
                       <h5 className="card-title">Siniestros</h5>
                     </div>
                     <Card.Body>
-                      <div className="mb-3 mt-md-4"></div>
+                      <div className="mb-3 mt-md-4">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Descripción</th>
+                              <th scope="col">Fecha de Reporte</th>
+                              <th scope="col">Estado</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {siniestros.map((siniestro, index) => (
+                              <tr key={index + 1}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{siniestro.descripcion_tipo_siniestro}</td>
+                                <td>{siniestro.fecha_reporte}</td>
+                                <td>{siniestro.estado}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </Card.Body>
                   </Card>
                 </Col>

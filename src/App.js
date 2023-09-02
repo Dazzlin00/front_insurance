@@ -31,6 +31,7 @@ function App() {
               <Route path="login" element={<Login />}></Route>
               <Route path="*" element={<Navigate replace to="/" />}></Route>
               <Route path="signUp" element={<SignUp />}></Route>
+              <Route path="newPassword" element={<NewPassword/>}></Route>
             </Route>
 
             <Route path="/" element={<NavbarDashboard />}>
@@ -40,7 +41,7 @@ function App() {
 
               <Route path="reports" element={<Reports />}></Route>
 
-              <Route path="newPassword" element={<NewPassword/>}></Route>
+             
 
 
 
