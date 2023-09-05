@@ -16,8 +16,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const mensajes = async ({ ...data }) => {
-    //await csrf();
-    //console.log("csrf", csrf);
+    await csrf();
+    console.log("csrf", csrf);
     try {
       await axios.post("/api/mensajes", data);
 
