@@ -3,6 +3,7 @@ import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
+import logo from '../red-seguro-logo.jpg';
 
 const endpoint = "http://localhost:8000/api/register";
 
@@ -23,7 +24,9 @@ const SignUp = () => {
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
           <Col md={8} lg={6} xs={12}>
-            <h2 className=" mb-5 text-uppercase ">Insurance</h2>
+            <h2 className="mb-5">
+              <img src={logo} alt="logo" className="img-thumbnail w-50 border border-0" />
+            </h2>
             <Card className="shadow">
               <div className="card-header ">
                 <h5 className="card-title">Regístrate</h5>
