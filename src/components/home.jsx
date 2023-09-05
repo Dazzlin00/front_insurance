@@ -1,6 +1,17 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import useAuthContext from "../context/AuthContext";
 
-const home = () => {
+const Home = () => {
+
+  const [email, setEmail] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const { mensajes } = useAuthContext();
+
+  const handleMessage = async (event) => {
+    event.preventDefault();
+    mensajes({ email, mensaje });
+  };
 
   return (
 
@@ -42,17 +53,38 @@ const home = () => {
 
             <h5>Contacta con nosotros</h5>
 
-            <div className="mb-3">
-              <p className="tittleLeft">Correo Electrónico</p>
-              <input type="email" className="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
-            </div>
+            <Form onSubmit={handleMessage} className="mb-5 mt-3">
+              <Form.Group className="mb-3" controlId="formBasicEmail">
 
-            <div className="mb-3">
-              <p className="tittleLeft">Mensaje</p>
-              <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Ingrese su correo"
+                />
 
-            <button type="button" className="btn btn-primary">Enviar</button>
+              </Form.Group>
+
+              <Form.Group
+                className="mb-3"
+                controlId="formBasicMessage">
+
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  value={mensaje}
+
+                  onChange={(e) => setMensaje(e.target.value)}
+                  placeholder="Mensaje"
+
+                />
+              </Form.Group>
+              <div className="d-grid">
+                <Button variant="primary" type="submit">
+                  Enviar
+                </Button>
+              </div>
+            </Form>
 
           </div>
 
@@ -109,4 +141,4 @@ const home = () => {
 
   )
 }
-export default home
+export default Home

@@ -15,6 +15,21 @@ export const AuthProvider = ({ children }) => {
     setUser(data);
   };
 
+  const mensajes = async ({ ...data }) => {
+    //await csrf();
+    //console.log("csrf", csrf);
+    try {
+      await axios.post("/api/mensajes", data);
+
+      navigate("/dashboard");
+    } catch (e) {
+      if (e.response.status === 422) {
+        setErrors(e.response.data.errors);
+        console.log(e);
+      }
+    }
+  };
+
   const login = async ({ ...data }) => {
     await csrf();
     console.log("csrf", csrf);
@@ -55,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, errors, getUser, login,logout,register }}>
+    <AuthContext.Provider value={{ user, errors, getUser, login,logout,register, mensajes }}>
       {children}
     </AuthContext.Provider>
   );
