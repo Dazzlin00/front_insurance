@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import useAuthContext from "../context/AuthContext";
 
@@ -6,12 +6,14 @@ const Home = () => {
 
   const [email, setEmail] = useState("");
   const [mensaje, setMensaje] = useState("");
-  const { mensajes } = useAuthContext();
+  const { mensajes,errors,success } = useAuthContext();
 
   const handleMessage = async (event) => {
     event.preventDefault();
     mensajes({ email, mensaje });
   };
+
+  
 
   return (
 
@@ -78,6 +80,9 @@ const Home = () => {
                   placeholder="Mensaje"
 
                 />
+                {errors && <text >{errors}</text>}
+                {success && <text >{success}</text>}
+                
               </Form.Group>
               <div className="d-grid">
                 <Button variant="primary" type="submit">
