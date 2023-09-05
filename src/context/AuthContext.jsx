@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/api/mensajes", data);
 
-      navigate("/dashboard");
     } catch (e) {
       if (e.response.status === 422) {
         setErrors(e.response.data.errors);
