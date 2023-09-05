@@ -15,6 +15,7 @@ import Reports from "./components/reports";
 import Policies from "./components/policies";
 import SignUp from "./components/signUp";
 import NewPassword from "./components/newPassword";
+import Configuration from "./components/configuration";
 
 function App() {
   return (
@@ -40,6 +41,9 @@ function App() {
               <Route path="accidents" element={<Accidents />}></Route>
 
               <Route path="reports" element={<Reports />}></Route>
+              
+              <Route path="configuration" element={<Configuration />}></Route>
+
 
              
 

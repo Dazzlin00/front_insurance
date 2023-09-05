@@ -12,7 +12,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordconfi] = useState("");
- const { register } = useAuthContext();
+ const { register,errors,success } = useAuthContext();
 
   const handleregister = async (event) => {
     event.preventDefault();
@@ -103,7 +103,8 @@ const SignUp = () => {
                         />
                        
                       </div>
-
+                      {errors && <text>{errors}</text>}
+                        {success && <text>{success}</text>}
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
                           Crear cuenta
