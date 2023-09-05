@@ -22,7 +22,8 @@ export const AuthProvider = ({ children }) => {
     console.log("csrf", csrf);
     try {
       await axios.post("/api/mensajes", data);
-      setSuccess("Mensaje enviado correctamente");
+      
+      setSuccess(<div class="alert alert-success">Mensaje enviado correctamente</div>);
     } catch (e) {
       if (e.response.status === 422) {
         setErrors(e.response.data.errors);
@@ -40,10 +41,15 @@ export const AuthProvider = ({ children }) => {
       setSuccess("Bienvendido");
       navigate("/dashboard");
     } catch (e) {
-      if (e.response.status === 422) {
-        setErrors(e.response.data.errors);
-        console.log(e);
+      if (e.response.status === 401) {
+        
+        setErrors(<div class="alert alert-danger">El email o la contraseña son incorrectos</div>);
+        console.log(e.response.status);
+      } else if (e.response.status === 500) {
+        setErrors("Intentelo mas tarde");
       }
+
+      console.log(e);
     }
   };
   const register = async ({ ...data }) => {
@@ -52,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/api/register", data);
       await getUser();
+      
       setSuccess("¡Registrado Exitosamente!");
       const timer = setTimeout(() => {
         navigate("/login");
@@ -63,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       if (e.response.status === 422) {
         setErrors(e.response.data.errors);
-        console.log(e);
+        console.log(e.response.status);
       }
     }
   };
@@ -78,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     const timer = setTimeout(() => {
       setErrors("");
       setSuccess("");
-    }, 2000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);

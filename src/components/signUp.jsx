@@ -103,8 +103,8 @@ const SignUp = () => {
                         />
                        
                       </div>
-                      {errors && <text>{errors}</text>}
-                        {success && <text>{success}</text>}
+                      {errors && <div class="alert alert-danger">{errors}</div>}
+                      {success && <div class="alert alert-success">{success}</div>}
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
                           Crear cuenta

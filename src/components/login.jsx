@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import useAuthContext from "../context/AuthContext";
 import "../css/login.css";
@@ -9,11 +9,30 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, errors, success } = useAuthContext();
+  const [message, setMessage] = React.useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
+    
+    if (!email || !password) {
+     
+      setMessage( <div class="alert alert-danger">Por favor complete todos los campos</div>);
+      return;
+    }
     login({ email, password });
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("")
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
+ 
   return (
     <div>
       <Container>
@@ -135,10 +154,12 @@ const Login = () => {
                           </a>
                         </p>
                       </Form.Group>
+                      {errors && <text className="error">{errors}</text>}
+                      {success && <text className="sucess">{success}</text>}
+                      {message && <text className="sucess">{message}</text>}
 
                       <div className="d-grid">
-                      {errors && <text>{errors}</text>}
-                        {success && <text>{success}</text>}
+                      
                         <Button variant="primary" type="submit">
                           Acceder
                         </Button>
