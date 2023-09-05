@@ -36,7 +36,7 @@ const NavbarDashboard = () => {
               <Nav.Link as={Link} to="/reports">
                 Reportes
               </Nav.Link>
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/configuration">
                 Configuración
               </Nav.Link>
             </Nav>
