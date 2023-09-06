@@ -24,6 +24,12 @@ const Dashboard = () => {
       getAllPolizas();
       getAllSiniestros ();
     }
+    if (user?.data.roles.includes("admin")){
+      getPolizas();
+      getSiniestros();
+      getAllPolizas();
+      getAllSiniestros ();
+    }
   }, [user]);
   const getPolizas = async () => {
     const response = await axios.get(`${endpoint}/poliza`, {
@@ -117,7 +123,7 @@ const Dashboard = () => {
         <div>
           {/* CLIENTE */}
           {user?.data.roles.includes("user") && (
-            <Container>
+            <Container style={{ width: "1000px" }}>
               ¡Bienvenido, {user?.data.name}!
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
@@ -190,7 +196,7 @@ const Dashboard = () => {
 
           {/* Agente */}
           {user?.data.roles.includes("agent") && (
-            <Container>
+            <Container style={{ width: "1000px" }}>
               ¡Bienvenido, {user?.data.name}!
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
@@ -198,12 +204,12 @@ const Dashboard = () => {
                     <div className="card-header">
                       <h5 className="card-title">Últimos clientes</h5>
                     </div>
-                    <Card.Body>
+                    <Card.Body  >
                       <div className="mb-3 mt-md-4">
                         <table className="table">
                           <thead>
                             <tr>
-                              <th scope="col">#</th>
+                              <th scope="col" >#</th>
                               <th scope="col">ID</th>
                               <th scope="col">Usuario</th>
                               <th scope="col">Ingreso</th>
