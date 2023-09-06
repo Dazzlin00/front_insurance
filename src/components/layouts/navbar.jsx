@@ -14,29 +14,26 @@ function navbar() {
     return (
         <>
         
-        <Navbar className="navBg" expand="lg"  >
-          <Container>
-            
-            <Navbar.Brand as={Link} to="/" className="d-flex justify-content-start">
-            <img src={logo} alt="logo" className="img-thumbnail w-25" />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-               
-                <Nav.Link as={Link} to="/plans" >Planes</Nav.Link>
-                <Nav.Link as={Link} to="/about">Sobre nosotros</Nav.Link>
-                <Nav.Link as={Link} to="/contact">Contáctanos</Nav.Link>
-                <Nav.Link as={Link} to="/politics">Politicas</Nav.Link>
-                
-              </Nav>
-              <Col xs="auto">
-            <Button as={Link} to="/login">Acceder</Button>
-          </Col>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-        
+        <Navbar className="navBg" expand="lg">
+  <Container style={{ maxHeight: "60px" }}>
+    <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+      <img src={logo} alt="logo" className="img-thumbnail" style={{ width: '150px', height:'70px'}} />
+    </Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="me-auto">
+        <Nav.Link as={Link} to="/plans">Planes</Nav.Link>
+        <Nav.Link as={Link} to="/about">Sobre nosotros</Nav.Link>
+        <Nav.Link as={Link} to="/contact">Contáctanos</Nav.Link>
+        <Nav.Link as={Link} to="/politics">Politicas</Nav.Link>
+      </Nav>
+      <Nav>
+        <Nav.Link as={Link} to="/login">Acceder</Nav.Link>
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
+
         <section>
           <Outlet></Outlet>
         </section>
