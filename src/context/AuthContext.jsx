@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/api/login", data);
       await getUser();
-      setSuccess("Bienvendido");
+      setSuccess(<div class="alert alert-success">Bienvendido</div>);
+
       navigate("/dashboard");
     } catch (e) {
       if (e.response.status === 401) {
@@ -46,7 +47,8 @@ export const AuthProvider = ({ children }) => {
         setErrors(<div class="alert alert-danger">El email o la contraseña son incorrectos</div>);
         console.log(e.response.status);
       } else if (e.response.status === 500) {
-        setErrors("Intentelo mas tarde");
+        setErrors(<div class="alert alert-danger">Intentelo mas tarde</div>);
+
       }
 
       console.log(e);
@@ -57,21 +59,23 @@ export const AuthProvider = ({ children }) => {
     console.log("csrf", csrf);
     try {
       await axios.post("/api/register", data);
-      await getUser();
-      
-      setSuccess("¡Registrado Exitosamente!");
+      setSuccess(<div class="alert alert-success">¡Registrado Exitosamente!</div>);
+
+     
       const timer = setTimeout(() => {
         navigate("/login");
       }, 3000);
-
+      
       return () => {
         clearTimeout(timer);
       };
+
+    
     } catch (e) {
-      if (e.response.status === 422) {
-        setErrors(e.response.data.errors);
+      setErrors(<div class="alert alert-danger">Error: No se pudo registrar al usuario.</div>);
+
         console.log(e.response.status);
-      }
+      
     }
   };
 

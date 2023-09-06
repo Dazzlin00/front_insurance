@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
 import logo from '../red-seguro-logo.jpg';
 
-const endpoint = "http://localhost:8000/api/register";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -13,11 +10,27 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordconfi] = useState("");
  const { register,errors,success } = useAuthContext();
+ const [message, setMessage] = React.useState("");
 
   const handleregister = async (event) => {
     event.preventDefault();
+    if (!name ||!email || !password|| !password_confirmation) {
+     
+      setMessage( <div class="alert alert-danger">Por favor complete todos los campos</div>);
+      return;
+    }
     register({ name,email, password,password_confirmation});
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage("")
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [message]);
 
   return (
     <>
@@ -103,8 +116,10 @@ const SignUp = () => {
                         />
                        
                       </div>
-                      {errors && <div class="alert alert-danger">{errors}</div>}
-                      {success && <div class="alert alert-success">{success}</div>}
+                      {errors && <text className="error">{errors}</text>}
+                      {success && <text className="sucess">{success}</text>}
+                      {message && <text className="sucess">{message}</text>}
+
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
                           Crear cuenta
