@@ -27,8 +27,10 @@ function navbar() {
         <Nav.Link as={Link} to="/contact">Contáctanos</Nav.Link>
         <Nav.Link as={Link} to="/politics">Politicas</Nav.Link>
       </Nav>
+
+
       <Nav>
-        <Nav.Link as={Link} to="/login">Acceder</Nav.Link>
+      <Button style={{  width:'120px',height:'40px' }} href="/login" >Acceder</Button>
       </Nav>
     </Navbar.Collapse>
   </Container>

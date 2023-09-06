@@ -19,34 +19,29 @@ const NavbarDashboard = () => {
 
   return (
     <>
-      <Navbar className="navBg" expand="lg">
-        <Container>
-        <Navbar.Brand as={Link} to="/dashboard" className="d-flex justify-content-start">
-          <img src={logo} alt="logo" className="img-thumbnail w-25" />
-        </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link as={Link} to="/policies">
-                Polizas
-              </Nav.Link>
-              <Nav.Link as={Link} to="/accidents">
-                Siniestros
-              </Nav.Link>
-              <Nav.Link as={Link} to="/reports">
-                Reportes
-              </Nav.Link>
-              <Nav.Link as={Link} to="/configuration">
-                Configuración
-              </Nav.Link>
-            </Nav>
-         
-            <Col xs="auto">
-            <Button onClick={handleLogout}>Cerrar Sesion</Button>
-            </Col>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+<Navbar className="navBg" expand="lg">
+  <Container style={{ maxHeight: "60px" }}>
+    <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
+      <img src={logo} alt="logo" className="img-thumbnail" style={{ width: '150px', height:'70px'}} />
+    </Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="me-auto">
+        <Nav.Link as={Link} to="/policies">Polizas</Nav.Link>
+        <Nav.Link as={Link} to="/accidents">Siniestros</Nav.Link>
+        <Nav.Link as={Link} to="/reports">Reportes</Nav.Link>
+        <Nav.Link as={Link} to="/configuration">Configuración</Nav.Link>
+      </Nav>
+      <Nav>
+      <Button style={{  width:'120px',height:'40px' }} onClick={handleLogout}>Cerrar Sesion</Button>
+      </Nav>
+    </Navbar.Collapse>
+  </Container>
+</Navbar>
+
+
+
+     
 
       <section>
         <Outlet></Outlet>
