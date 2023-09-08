@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState([]);
   const [success, setSuccess] = useState([]);
+  const [cedula, setCedula] = useState("");
 
   const navigate = useNavigate();
   const csrf = () => axios.get("/sanctum/csrf-cookie");
@@ -22,8 +23,10 @@ export const AuthProvider = ({ children }) => {
     console.log("csrf", csrf);
     try {
       await axios.post("/api/mensajes", data);
-      
-      setSuccess(<div class="alert alert-success">Mensaje enviado correctamente</div>);
+
+      setSuccess(
+        <div class="alert alert-success">Mensaje enviado correctamente</div>
+      );
     } catch (e) {
       if (e.response.status === 422) {
         setErrors(e.response.data.errors);
@@ -43,12 +46,14 @@ export const AuthProvider = ({ children }) => {
       navigate("/dashboard");
     } catch (e) {
       if (e.response.status === 401) {
-        
-        setErrors(<div class="alert alert-danger">El email o la contraseña son incorrectos</div>);
+        setErrors(
+          <div class="alert alert-danger">
+            El email o la contraseña son incorrectos
+          </div>
+        );
         console.log(e.response.status);
       } else if (e.response.status === 500) {
         setErrors(<div class="alert alert-danger">Intentelo mas tarde</div>);
-
       }
 
       console.log(e);
@@ -59,26 +64,28 @@ export const AuthProvider = ({ children }) => {
     console.log("csrf", csrf);
     try {
       await axios.post("/api/register", data);
-      setSuccess(<div class="alert alert-success">¡Registrado Exitosamente!</div>);
+      setSuccess(
+        <div class="alert alert-success">¡Registrado Exitosamente!</div>
+      );
 
-     
       const timer = setTimeout(() => {
         navigate("/login");
       }, 3000);
-      
+
       return () => {
         clearTimeout(timer);
       };
-
-    
     } catch (e) {
-      setErrors(<div class="alert alert-danger">Error: No se pudo registrar al usuario.</div>);
+      setErrors(
+        <div class="alert alert-danger">
+          Error: No se pudo registrar al usuario.
+        </div>
+      );
 
-        console.log(e.response.status);
-      
+      console.log(e.response.status);
     }
   };
-
+  
   const logout = () => {
     axios.post("/api/logout").then(() => {
       setUser(null);
@@ -106,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         register,
         mensajes,
+      
       }}
     >
       {children}

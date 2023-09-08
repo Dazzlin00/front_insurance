@@ -4,7 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
-import logo from '../../red-seguro-logo.jpg';
+import logo from '../../red.png';
 
 
 import { Outlet, Link } from "react-router-dom";
@@ -19,10 +19,10 @@ const NavbarDashboard = () => {
 
   return (
     <>
-<Navbar className="navBg" expand="lg">
+<Navbar className="navBg fixed-top" expand="lg">
   <Container style={{ maxHeight: "60px" }}>
     <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
-      <img src={logo} alt="logo" className="img-thumbnail" style={{ width: '150px', height:'70px'}} />
+      <img src={logo} alt="logo"  style={{ width: '150px', height:'70px'}} />
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">

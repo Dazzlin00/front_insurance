@@ -1,45 +1,40 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import useAuthContext from "../context/AuthContext";
 import "../css/login.css";
-import { Link } from "react-router-dom";
-import logo from '../red-seguro-logo.jpg';
+import { Link, isRouteErrorResponse } from "react-router-dom";
+import logo from "../red-seguro-logo.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, errors, success } = useAuthContext();
   const [message, setMessage] = React.useState("");
-
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    
     if (!email || !password) {
-     
-      setMessage( <div class="alert alert-danger">Por favor complete todos los campos</div>);
+      setMessage(
+        <div class="alert alert-danger">
+          Por favor complete todos los campos
+        </div>
+      );
       return;
     }
     login({ email, password });
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage("")
-    }, 2000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [message]);
- 
   return (
     <div>
       <Container>
         <Row className="vh-100 d-flex justify-content-center align-items-center">
           <Col md={8} lg={6} xs={12}>
             <h2 className="mb-5">
-            <img src={logo} alt="logo" className="img-thumbnail w-50 border border-0" />
+              <img
+                src={logo}
+                alt="logo"
+                className="img-thumbnail w-50 border border-0"
+              />
             </h2>
             <Card className="shadow">
               <div className="card-header ">
@@ -123,6 +118,7 @@ const Login = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Ingrese su correo"
+                          onFocus={() => setMessage("")}
                         />
                       </Form.Group>
 
@@ -135,6 +131,7 @@ const Login = () => {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="Contraseña"
+                          onFocus={() => setMessage("")}
                         />
                       </Form.Group>
                       <Form.Group
@@ -159,7 +156,6 @@ const Login = () => {
                       {message && <text className="sucess">{message}</text>}
 
                       <div className="d-grid">
-                      
                         <Button variant="primary" type="submit">
                           Acceder
                         </Button>

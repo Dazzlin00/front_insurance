@@ -16,6 +16,8 @@ import Policies from "./components/policies";
 import SignUp from "./components/signUp";
 import NewPassword from "./components/newPassword";
 import Configuration from "./components/configuration";
+import  PoliciesCreate  from "./components/policiescreate";
+import  AccidentsCreate  from "./components/accidentscreate";
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
               <Route path="*" element={<Navigate replace to="/" />}></Route>
               <Route path="signUp" element={<SignUp />}></Route>
               <Route path="newPassword" element={<NewPassword />}></Route>
+              
             </Route>
 
             <Route path="/" element={<NavbarDashboard />}>
@@ -41,6 +44,8 @@ function App() {
               <Route path="accidents" element={<Accidents />}></Route>
 
               <Route path="reports" element={<Reports />}></Route>
+              <Route path="/policies-create" element={<PoliciesCreate/>}/>
+              <Route path="/accidents-create" element={<AccidentsCreate/>}/>
 
               <Route path="configuration" element={<Configuration />}></Route>
             </Route>

@@ -2,7 +2,7 @@ import React from 'react'
 
 function plans() {
   return (
-    <div>plans</div>
+    <div  style={{marginTop:"105px"}}>plans</div>
   )
 }
 

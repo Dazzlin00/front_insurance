@@ -1,37 +1,38 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import icon from "../red-seguro-icon.jpg";
-import nosotros from "../assets/sobreno.jpg";
+import icon from "../red-seguro-icon.png";
+import nosotros from "../assets/about.jpg";
+import Footer from "./layouts/footer";
 
 const AboutUs = () => {
   return (
-    <Container
+    <div
       style={{
         backgroundColor: "#EAEAEA",
-        marginTop: 30,
-        marginBottom: 30,
-        padding: "30px",
-        borderRadius: 10,
+     
+        
       }}
     >
-      <Row>
-        <Col xs="12" md="6">
+     
+       
           <img
             src={nosotros}
             alt="Imagen de contacto"
-            style={{ width: "600px", height: "600px", borderRadius: 10 }}
+           width={"100%"}
+           height={600}
           />
-        </Col>
+       
         <Col>
-          <h1 style={{ color: "#333333" }}>Sobre nosotros</h1>
+          
           <div
             style={{
              
               backgroundColor: "#87CEEB",
-              borderRadius: 10,
+            
               padding:20
             }}
           >
+            <h1 style={{ color: "#333333" }}>Sobre nosotros</h1>
             <p
               style={{
                 color: "#333333",
@@ -68,7 +69,6 @@ const AboutUs = () => {
             <img
               src={icon}
               alt="icon"
-              className="img-thumbnail border border-0"
               style={{ width: "10%" }}
             />
             <p
@@ -82,8 +82,9 @@ const AboutUs = () => {
             </p>
           </div>
         </Col>
-      </Row>
-    </Container>
+        <Footer />
+
+    </div>
   );
 };
 

@@ -120,7 +120,7 @@ const Dashboard = () => {
   return (
     <div>
       {user && (
-        <div>
+        <div style={{marginTop:100}}>
           {/* CLIENTE */}
           {user?.data.roles.includes("user") && (
             <Container style={{ width: "1000px" }}>
