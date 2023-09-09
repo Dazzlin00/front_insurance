@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
 import axios from "axios";
+
 const endpoint = "http://localhost:8000/api";
 
 const Policies = () => {
@@ -57,6 +58,7 @@ const Policies = () => {
               <table className="table table table-striped">
                 <thead>
                   <tr>
+                  <th scope="col">Nro. Poliza</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Cliente</th>
                     <th scope="col">Fecha de inicio</th>
@@ -68,6 +70,7 @@ const Policies = () => {
                   {polizas.map((poliza, index) => (
                     <tr>
                       <th scope="row">{poliza.num_poliza}</th>
+                      <td>{poliza.descripcion}</td>
                       <td>{poliza.name}</td>
                       <td>{poliza.fecha_inicio}</td>
                       <td>{poliza.fecha_vencimiento}</td>

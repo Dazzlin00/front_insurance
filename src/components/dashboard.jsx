@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 import axios from "axios";
-
 import useAuthContext from "../context/AuthContext";
 const endpoint = "http://localhost:8000/api";
 
 const Dashboard = () => {
   const [polizas, setPolizas] = useState([]);
   const [siniestros, setSiniestros] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
 
   const { user, getUser } = useAuthContext();
 
@@ -22,13 +22,15 @@ const Dashboard = () => {
       getSiniestros();
     } else if (user?.data.roles.includes("agent")) {
       getAllPolizas();
-      getAllSiniestros ();
+      getAllSiniestros();
+      getAllUsers();
     }
-    if (user?.data.roles.includes("admin")){
+    if (user?.data.roles.includes("admin")) {
       getPolizas();
       getSiniestros();
       getAllPolizas();
-      getAllSiniestros ();
+      getAllSiniestros();
+      getAllUsers();
     }
   }, [user]);
   const getPolizas = async () => {
@@ -39,10 +41,9 @@ const Dashboard = () => {
     if (response.status === 200) {
       // La solicitud se realizó correctamente
       setPolizas(response.data);
+
       // Haz algo con las polizas
-    } 
-    
-    else {
+    } else {
       // La solicitud falló
       const error = response.error;
       console.log(error);
@@ -51,7 +52,6 @@ const Dashboard = () => {
   };
 
   const getAllPolizas = async () => {
-
     const response = await axios.get(`${endpoint}/polizas`, {
       withCredentials: true,
     });
@@ -60,43 +60,31 @@ const Dashboard = () => {
       // La solicitud se realizó correctamente
       setPolizas(response.data);
       // Haz algo con las polizas
-    } 
-    
-    else {
+    } else {
       // La solicitud falló
       const error = response.error;
       console.log(error);
       // Haz algo con el error
     }
-  
-   
   };
-  
-
 
   const getSiniestros = async () => {
-    
-      const response = await axios.get(`${endpoint}/siniestro`, {
-        withCredentials: true,
-      });
+    const response = await axios.get(`${endpoint}/siniestro`, {
+      withCredentials: true,
+    });
 
-      if (response.status === 200) {
-        // La solicitud se realizó correctamente
-        setSiniestros(response.data);
-        // Haz algo con las polizas
-      } 
-      
-      else {
-        // La solicitud falló
-        const error = response.error;
-        console.log(error);
-        // Haz algo con el error
-      }
-   
-     
+    if (response.status === 200) {
+      // La solicitud se realizó correctamente
+      setSiniestros(response.data);
+      // Haz algo con las polizas
+    } else {
+      // La solicitud falló
+      const error = response.error;
+      console.log(error);
+      // Haz algo con el error
+    }
   };
   const getAllSiniestros = async () => {
-    
     const response = await axios.get(`${endpoint}/siniestros`, {
       withCredentials: true,
     });
@@ -105,22 +93,33 @@ const Dashboard = () => {
       // La solicitud se realizó correctamente
       setSiniestros(response.data);
       // Haz algo con las polizas
-    } 
-    
-    else {
+    } else {
       // La solicitud falló
       const error = response.error;
       console.log(error);
       // Haz algo con el error
     }
- 
-   
-};
- 
+  };
+  const getAllUsers = async () => {
+    const response = await axios.get(`${endpoint}/users`, {
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      // La solicitud se realizó correctamente
+      setUsuarios(response.data);
+      // Haz algo con las polizas
+    } else {
+      // La solicitud falló
+      const error = response.error;
+      console.log(error);
+      // Haz algo con el error
+    }
+  };
   return (
     <div>
       {user && (
-        <div style={{marginTop:100}}>
+        <div style={{ marginTop: 100 }}>
           {/* CLIENTE */}
           {user?.data.roles.includes("user") && (
             <Container style={{ width: "1000px" }}>
@@ -204,24 +203,27 @@ const Dashboard = () => {
                     <div className="card-header">
                       <h5 className="card-title">Últimos clientes</h5>
                     </div>
-                    <Card.Body  >
+                    <Card.Body>
                       <div className="mb-3 mt-md-4">
                         <table className="table">
                           <thead>
                             <tr>
-                              <th scope="col" >#</th>
-                              <th scope="col">ID</th>
+                              <th scope="col">#</th>
+                              <th scope="col">ID del Usuario</th>
                               <th scope="col">Usuario</th>
+                              <th scope="col">Correo</th>
                               <th scope="col">Ingreso</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {polizas.map((poliza, index) => (
+                            {usuarios.map((usuario, index) => (
                               <tr key={index + 1}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{poliza.num_poliza}</td>
-                                <td>{poliza.name}</td>
-                                <td>{poliza.fecha_inicio}</td>
+                                <td>{usuario.id}</td>
+                              
+                                <td>{usuario.name}</td>
+                                <td>{usuario.email}</td>
+                                <td>{usuario.registro}</td>
                               </tr>
                             ))}
                           </tbody>
