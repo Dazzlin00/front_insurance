@@ -245,6 +245,7 @@ const Dashboard = () => {
                           <thead>
                             <tr>
                               <th scope="col">#</th>
+                              
                               <th scope="col">Descripción</th>
                               <th scope="col">Fecha de Reporte</th>
                               <th scope="col">Estado</th>
@@ -254,7 +255,7 @@ const Dashboard = () => {
                             {siniestros.map((siniestro, index) => (
                               <tr key={index + 1}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{siniestro.descripcion_tipo_siniestro}</td>
+                                <td>{siniestro.descripcion}</td>
                                 <td>{siniestro.fecha_reporte}</td>
                                 <td>{siniestro.estado}</td>
                               </tr>

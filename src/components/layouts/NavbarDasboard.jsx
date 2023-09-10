@@ -20,7 +20,7 @@ const NavbarDashboard = () => {
   return (
     <>
 <Navbar className="navBg fixed-top" expand="lg">
-  <Container style={{ maxHeight: "60px" }}>
+  <Container >
     <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
       <img src={logo} alt="logo"  style={{ width: '150px', height:'70px'}} />
     </Navbar.Brand>
@@ -32,9 +32,9 @@ const NavbarDashboard = () => {
         <Nav.Link as={Link} to="/reports">Reportes</Nav.Link>
         <Nav.Link as={Link} to="/configuration">Configuración</Nav.Link>
       </Nav>
-      <Nav>
+ 
       <Button style={{  width:'120px',height:'40px' }} onClick={handleLogout}>Cerrar Sesion</Button>
-      </Nav>
+
     </Navbar.Collapse>
   </Container>
 </Navbar>

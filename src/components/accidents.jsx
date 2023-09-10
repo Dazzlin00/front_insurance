@@ -58,6 +58,7 @@ function Accidents() {
             <thead>
                 <tr>
                 <th scope="col">#</th>
+                <th scope="col">Cedula del afectado</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Pagado</th>
                 <th scope="col">Fecha de reporte</th>
@@ -69,10 +70,11 @@ function Accidents() {
             {siniestros.map((siniestro, index) => (
                 <tr>
                 <th scope="row">1</th>
+                <td>{siniestro.numid}</td>
                 <td>{siniestro.descripcion_tipo_siniestro}</td>
                 <td>Si</td>
                 <td>{siniestro.fecha_reporte}</td>
-                <td>02/09/2024</td>
+                <td>{siniestro.fecha_declaracion}</td>
                 <td><button type="button" className="btn btn-sm btn-primary">Ver detalle</button></td>
                 </tr>
                  ))}
@@ -93,6 +95,7 @@ function Accidents() {
             <thead>
                 <tr>
                 <th scope="col">#</th>
+                <th scope="col">Cedula del afectado</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Pagado</th>
                 <th scope="col">Fecha de reporte</th>
@@ -104,10 +107,12 @@ function Accidents() {
             {siniestros.map((siniestro, index) => (
                 <tr>
                 <th scope="row">1</th>
+                <td>{siniestro.id_usuario}</td>
+
                 <td>{siniestro.descripcion_tipo_siniestro}</td>
                 <td>Si</td>
                 <td>{siniestro.fecha_reporte}</td>
-                <td>02/09/2024</td>
+                <td>{siniestro.fecha_declaracion}</td>
                 <td><button type="button" className="btn btn-sm btn-primary">Ver detalle</button></td>
                 </tr>
                  ))}
