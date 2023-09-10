@@ -34,7 +34,7 @@ const Dashboard = () => {
     }
   }, [user]);
   const getPolizas = async () => {
-    const response = await axios.get(`${endpoint}/poliza`, {
+    const response = await axios.get(`${endpoint}/user-poliza`, {
       withCredentials: true,
     });
 
