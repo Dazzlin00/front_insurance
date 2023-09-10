@@ -22,6 +22,7 @@ const PoliciesCreate = ({ typeRoute }) => {
   const [FormaPago, setFormaPago] = React.useState("");
   const [id_usuario, setIdUser] = React.useState("");
   const [cobertura, setCobertura] = React.useState("");
+  const [estado, setEstado] = React.useState("");
 
   const searchPoliza = async () => {
 
@@ -45,7 +46,7 @@ const PoliciesCreate = ({ typeRoute }) => {
       setCobertura(poliza.cobertura);
       setCedula(poliza.numid);
       setName(poliza.username);
-
+      setEstado(poliza.estado);
     } catch (e) {
       setMessage(
         <div className="alert alert-danger">No se encontro la poliza.</div>
@@ -265,7 +266,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                   >
                     <option>Seleccione</option>
 
-                    {tipo_poliza != '' ? (
+                    {tipo_poliza !== '' ? (
                       datos?.map((dato) => (
                         <option key={dato.id} value={dato.id}>
                           {dato.descripcion}
@@ -352,6 +353,23 @@ const PoliciesCreate = ({ typeRoute }) => {
                     <option>Transferencia bancaria</option>
                     <option>Tarjetas de crédito</option>
                     <option>Cheques</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-12">
+                <div className="mb-3">
+                  <label className="form-label">Estado</label>
+                  <select
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}
+                    className="form-select"
+
+                    disabled={typeRoute === 'view' || user?.data.roles.includes("user")}
+                  >
+                    <option selected={ estado === 'Activo' } >Activo</option>
+                    <option selected={ estado === 'Inactivo' }>Inactivo</option>
                   </select>
                 </div>
               </div>
