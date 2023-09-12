@@ -67,7 +67,7 @@ function Accidents() {
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Cedula del afectado</th>
-                    <th scope="col">Descripción</th>
+                    <th scope="col">Tipo de Siniestro</th>
                     <th scope="col">Pagado</th>
                     <th scope="col">Fecha de reporte</th>
                     <th scope="col">Fecha de solución</th>
