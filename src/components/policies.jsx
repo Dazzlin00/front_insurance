@@ -81,7 +81,9 @@ const Policies = () => {
                 <thead>
                   <tr>
                   <th scope="col">Nro. Poliza</th>
-                    <th scope="col">Descripción</th>
+                  <th scope="col">Tipo de poliza</th>
+                  <th scope="col">Cobertura</th>
+
                     <th scope="col">Cliente</th>
                     <th scope="col">Fecha de inicio</th>
                     <th scope="col">Fecha de vencimiento</th>
@@ -93,6 +95,8 @@ const Policies = () => {
                     <tr>
                       <th scope="row">{poliza.num_poliza}</th>
                       <td>{poliza.descripcion}</td>
+
+                      <td>{poliza.descripcion_cobertura}</td>
                       <td>{poliza.name}</td>
                       <td>{poliza.fecha_inicio}</td>
                       <td>{poliza.fecha_vencimiento}</td>

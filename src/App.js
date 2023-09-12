@@ -49,7 +49,9 @@ function App() {
               <Route path="policies/update/:id" element={<PoliciesCreate typeRoute="update" />}></Route>
               <Route path="policies/create" element={<PoliciesCreate typeRoute="create" />}></Route>
               
-              <Route path="/accidents-create" element={<AccidentsCreate/>}/>
+              <Route path="/accidents-create" element={<AccidentsCreate typeRoute="create" />}></Route>
+              <Route path="/accidents/view/:id" element={<AccidentsCreate typeRoute="view" />}></Route>
+              <Route path="/accidents/update/:id" element={<AccidentsCreate typeRoute="update" />}></Route>
 
               <Route path="configuration" element={<Configuration />}></Route>
             </Route>
