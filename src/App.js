@@ -16,8 +16,8 @@ import Policies from "./components/policies";
 import SignUp from "./components/signUp";
 import NewPassword from "./components/newPassword";
 import Configuration from "./components/configuration";
-import  PoliciesCreate  from "./components/policiescreate";
-import  AccidentsCreate  from "./components/accidentscreate";
+import PoliciesCreate  from "./components/policiescreate";
+import AccidentsCreate  from "./components/accidentscreate";
 
 function App() {
   return (
