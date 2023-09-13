@@ -1,12 +1,16 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState, Component, useCallback } from "react";
 import useAuthContext from "../context/AuthContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import axios from "../api/axios";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Alert, Modal } from "react-bootstrap";
 import { Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const PoliciesCreate = ({ typeRoute }) => {
   const { id } = useParams();
+
+  const navigate = useNavigate();
+  const [show, setShow] = useState(true);
 
   const [numid, setCedula] = useState("");
   const { user, getUser } = useAuthContext();
@@ -50,18 +54,80 @@ const PoliciesCreate = ({ typeRoute }) => {
       setCedula(poliza.numid);
       setName(poliza.username);
       setEstado(poliza.estado);
+
     } catch (e) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">No se encontro la poliza.</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible> No se encontro la poliza. </Alert>
       );
     }
   };
+
+  const eliminarPoliza = async () => {
+    if (!id) {
+      setShow(true);
+      setMessage(
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No existe la póliza.</Alert>
+      );
+      return;
+    }
+    const headers = {
+      Authorization: `Bearer ${user?.data.token}`,
+    };
+
+    /*try {
+      const response = await axios.delete(`/api/polizas/${id}`, {
+        headers,
+      });
+      setShow(true);
+      setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Póliza eliminada.</Alert>);
+      navigate('/policies');
+    } catch (e) {
+      setShow(true);
+      setMessage(
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se pudo eliminar la póliza.</Alert>
+      );
+    }*/
+  }
+
+  const eliminar = async (event) => {
+    event.preventDefault();
+
+    const handleClose = () => setShow(false);
+
+    const deleteP = () => {
+      eliminarPoliza();
+      setShow(false);
+      console.log(show);
+    };
+
+    setShow(true);
+    setMessage(
+      <Modal show={show} onHide={ handleClose }>
+        <Modal.Header closeButton>
+          <Modal.Title>¡ATENCIÓN!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¿Desea eliminar la póliza?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={ () => deleteP() }>
+            SI
+          </Button>
+          <Button variant="secondary" onClick={ () => setShow(false) }>
+            NO
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+
+  };
+
   const buscar = async (event) => {
     event.preventDefault();
 
     if (!numid) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">La cedula no debe esta vacia</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>La cedula no debe esta vacia</Alert>
       );
       return;
     }
@@ -77,8 +143,9 @@ const PoliciesCreate = ({ typeRoute }) => {
       setName(user.name);
       setIdUser(user.id);
     } catch (e) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">No se encontro el usuario</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se encontro el usuario</Alert>
       );
     }
   };
@@ -94,19 +161,20 @@ const PoliciesCreate = ({ typeRoute }) => {
       !cobertura |
       !monto_prima
     ) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">Debe completar todos los datos</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>Debe completar todos los datos</Alert>
       );
       return;
     }
+
     const data = {
-      id_usuario,
-      num_poliza,
       tipo_poliza,
       fecha_inicio,
       fecha_vencimiento,
       cobertura,
       monto_prima,
+      
     };
 
     try {
@@ -115,10 +183,13 @@ const PoliciesCreate = ({ typeRoute }) => {
 
         data
       );
-      setMessage(<div className="alert alert-success">Registro exitoso</div>);
+      setShow(true);
+      setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Registro exitoso</Alert>);
+      navigate('/policies/view/'+id);
     } catch (e) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">No se pudo registrar</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se pudo registrar</Alert>
       );
     }
   };
@@ -134,8 +205,9 @@ const PoliciesCreate = ({ typeRoute }) => {
       !cobertura |
       !monto_prima
     ) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">Debe completar todos los datos</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>Debe completar todos los datos</Alert>
       );
       return;
     }
@@ -145,17 +217,18 @@ const PoliciesCreate = ({ typeRoute }) => {
       tipo_poliza,
       fecha_inicio,
       fecha_vencimiento,
-      cobertura,
-      monto_prima,
-      estado,
+      cobertura
     };
 
     try {
       await axios.post( "/api/polizas", data);
-      setMessage(<div className="alert alert-success">Registro exitoso</div>);
+      setShow(true);
+      setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Registro exitoso</Alert>);
+      navigate('/policies/view/'+id);
     } catch (e) {
+      setShow(true);
       setMessage(
-        <div className="alert alert-danger">No se pudo registrar</div>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se pudo registrar</Alert>
       );
     }
   };
@@ -196,7 +269,6 @@ const PoliciesCreate = ({ typeRoute }) => {
             <div className="row">
               <div className="col-md-6">
                 <div className="mb-3">
-                  <text>{id_usuario}</text>
                   <Form onSubmit={buscar}>
                     <label className="form-label">Nro. Documento</label>
                     <div className="input-group ">
@@ -207,7 +279,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                         //className="form-control"
                         placeholder="Nro. Documento"
                         onFocus={() => setMessage("")}
-                        disabled={typeRoute === "view"}
+                        disabled={typeRoute === "view" || user?.data.roles.includes("user")}
                       />
 
                       {typeRoute !== "view" && (
@@ -257,6 +329,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                   <label className="form-label">Tipo de póliza</label>
                   <select
                     value={tipo_poliza}
+                    defaultValue={tipo_poliza}
                     onChange={(e) => setTipoPoliza(e.target.value)}
                     className="form-select"
                     disabled={
@@ -265,15 +338,11 @@ const PoliciesCreate = ({ typeRoute }) => {
                   >
                     <option>Seleccione</option>
 
-                    {tipo_poliza !== "" ? (
-                      datos?.map((dato) => (
+                    { datos?.map((dato) => (
                         <option key={dato.id} value={dato.id}>
                           {dato.descripcion}
                         </option>
-                      ))
-                    ) : (
-                      <option selected>{tipo_poliza}</option>
-                    )}
+                      )) }
                   </select>
                 </div>
               </div>
@@ -367,25 +436,25 @@ const PoliciesCreate = ({ typeRoute }) => {
             <div className="row">
               <div className="col-md-12">
                 <div className="mb-3">
-                  <text>{estado}</text>
                   <label className="form-label">Estado</label>
                   <select
                     value={estado}
+                    defaultValue={"Inactivo"}
                     onChange={(e) => setEstado(e.target.value)}
                     className="form-select"
                     disabled={
                       typeRoute === "view" || user?.data.roles.includes("user")
                     }
                   >
-                    <option selected={estado === "Activo"}>Activo</option>
-                    <option selected={estado === "Inactivo"}>Inactivo</option>
+                    <option selected={estado === "Activo"} key="Activo" value="Activo">Activo</option>
+                    <option selected={estado === "Inactivo"} key="Inactivo" value="Inactivo">Inactivo</option>
                   </select>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="col-md-6 d-grid">
-                {typeRoute === "view" && (
+              <div className="col-md-4 d-grid">
+                {typeRoute === "view" && !user?.data.roles.includes("user") && (
                   <Link
                     to={"/policies/update/" + id}
                     className="btn btn-primary"
@@ -414,16 +483,26 @@ const PoliciesCreate = ({ typeRoute }) => {
                   </button>
                 )}
               </div>
-
-              <div className="col-md-6 d-grid">
+              <div className="col-md-4 d-grid">
+              {typeRoute !== "create" && !user?.data.roles.includes("user") && (
+                  <button
+                    onClick={eliminar}
+                    className="btn btn-danger"
+                    type="submit"
+                  >
+                    Eliminar
+                  </button>
+                )}
+              </div>
+              <div className="col-md-4 d-grid">
                 <Link to="/policies" className="btn btn-outline-secondary">
                   Regresar
                 </Link>
               </div>
               {message && (
-                <text className="sucess" style={{ marginTop: 5 }}>
+                <div className="sucess" style={{ marginTop: 5, position: 'absolute', top: 0}}>
                   {message}
-                </text>
+                </div>
               )}
             </div>
           </div>
