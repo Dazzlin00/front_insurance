@@ -18,6 +18,7 @@ import NewPassword from "./components/newPassword";
 import Configuration from "./components/configuration";
 import PoliciesCreate  from "./components/policiescreate";
 import AccidentsCreate  from "./components/accidentscreate";
+import ReportsCreate  from "./components/reportscreate";
 
 function App() {
   return (
@@ -44,6 +45,10 @@ function App() {
               <Route path="accidents" element={<Accidents />}></Route>
 
               <Route path="reports" element={<Reports />}></Route>
+
+              <Route path="reports/view/:id" element={<ReportsCreate typeRoute="view" />}></Route>
+              <Route path="reports/update/:id" element={<ReportsCreate typeRoute="update" />}></Route>
+              <Route path="reports/create" element={<ReportsCreate typeRoute="create" />}></Route>
 
               <Route path="policies/view/:id" element={<PoliciesCreate typeRoute="view" />}></Route>
               <Route path="policies/update/:id" element={<PoliciesCreate typeRoute="update" />}></Route>
