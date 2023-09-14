@@ -12,6 +12,7 @@ import Politics from "./components/politics";
 import Dashboard from "./components/dashboard";
 import Accidents from "./components/accidents";
 import Reports from "./components/reports";
+import Messages from "./components/messages";
 import Policies from "./components/policies";
 import SignUp from "./components/signUp";
 import NewPassword from "./components/newPassword";
@@ -19,6 +20,7 @@ import Configuration from "./components/configuration";
 import PoliciesCreate  from "./components/policiescreate";
 import AccidentsCreate  from "./components/accidentscreate";
 import ReportsCreate  from "./components/reportscreate";
+import MessageView  from "./components/messageview";
 
 function App() {
   return (
@@ -43,6 +45,10 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}></Route>
               <Route path="policies" element={<Policies />}></Route>
               <Route path="accidents" element={<Accidents />}></Route>
+
+              <Route path="messages" element={<Messages />}></Route>
+              <Route path="messages/view/:id" element={<MessageView typeRoute="view" />}></Route>
+              <Route path="messages/update/:id" element={<MessageView typeRoute="update" />}></Route>
 
               <Route path="reports" element={<Reports />}></Route>
 

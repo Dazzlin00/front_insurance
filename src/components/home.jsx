@@ -6,12 +6,12 @@ import Footer from "./layouts/footer";
 //import ExampleCarouselImage from '../assets/politic.jpg';
 const Home = () => {
   const [email, setEmail] = useState("");
-  const [mensaje, setMensaje] = useState("");
+  const [contenido, setContenido] = useState("");
   const { mensajes, errors, success } = useAuthContext();
 
   const handleMessage = async (event) => {
     event.preventDefault();
-    mensajes({ email, mensaje });
+    mensajes({ email, contenido });
   };
 
   const [index, setIndex] = useState(0);
@@ -79,8 +79,8 @@ const Home = () => {
                 <Form.Control
                   as="textarea"
                   rows={3}
-                  value={mensaje}
-                  onChange={(e) => setMensaje(e.target.value)}
+                  value={contenido}
+                  onChange={(e) => setContenido(e.target.value)}
                   placeholder="Mensaje"
                 />
                 {errors && <text>{errors}</text>}

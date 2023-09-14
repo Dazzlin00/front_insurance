@@ -12,6 +12,7 @@ import useAuthContext from "../../context/AuthContext";
 
 const NavbarDashboard = () => {
   const { logout } = useAuthContext();
+  const { user, getUser } = useAuthContext();
   const handleLogout = () => {
     logout();
  
@@ -30,6 +31,7 @@ const NavbarDashboard = () => {
         <Nav.Link as={Link} to="/policies">Polizas</Nav.Link>
         <Nav.Link as={Link} to="/accidents">Siniestros</Nav.Link>
         <Nav.Link as={Link} to="/reports">Reportes</Nav.Link>
+        { !user?.data.roles.includes("user") && (<Nav.Link as={Link} to="/messages">Mensajes</Nav.Link>)}
         <Nav.Link as={Link} to="/configuration">Configuración</Nav.Link>
       </Nav>
  

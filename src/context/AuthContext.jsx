@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     await csrf();
     console.log("csrf", csrf);
     try {
-      await axios.post("/api/mensajes", data);
+      await axios.post("/api/general-mensajes", data);
 
       setSuccess(
         <div class="alert alert-success">Mensaje enviado correctamente</div>
