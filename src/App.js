@@ -21,6 +21,8 @@ import PoliciesCreate  from "./components/policiescreate";
 import AccidentsCreate  from "./components/accidentscreate";
 import ReportsCreate  from "./components/reportscreate";
 import MessageView  from "./components/messageview";
+import Users  from "./components/users";
+
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}></Route>
               <Route path="policies" element={<Policies />}></Route>
               <Route path="accidents" element={<Accidents />}></Route>
+
+              <Route path="users" element={<Users />}></Route>
 
               <Route path="messages" element={<Messages />}></Route>
               <Route path="messages/view/:id" element={<MessageView typeRoute="view" />}></Route>
