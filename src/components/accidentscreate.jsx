@@ -24,6 +24,7 @@ function AccidentsCreate({ typeRoute }) {
   const [descripcion, setDescripcion] = useState("");
   const [datos, setDatos] = React.useState([]);
   const [datosp, setDatosP] = React.useState([]);
+  const [estado, setEstado] = useState("");
 
   const [id_tipo_siniestro_descripcion, setTipoSiniestroDescripcion] =
     React.useState("");
@@ -186,7 +187,48 @@ function AccidentsCreate({ typeRoute }) {
       );
     }
   };
+  const aprobar = async (event) => {
+    event.preventDefault();
+   
+    const data = {
+      estado,
+    };
+    try {
+      await axios.put(
+        "/api/aprobar/" + id,
 
+        data
+      );
+
+      setMessage(
+        <div className="alert alert-success">Solicitud Aprobada</div>
+      );
+      navigate("/accidents/view/" + id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const rechazar = async (event) => {
+    event.preventDefault();
+   
+    const data = {
+      estado,
+    };
+    try {
+      await axios.put(
+        "/api/rechazar/" + id,
+
+        data
+      );
+
+      setMessage(
+        <div className="alert alert-danger">Solicitud Rechazada</div>
+      );
+      navigate("/accidents/view/" + id);
+    } catch (e) {
+     console.log(e);
+    }
+  };
   const eliminarSiniestro = async () => {
     if (!id) {
       setShow(true);
@@ -542,7 +584,7 @@ function AccidentsCreate({ typeRoute }) {
                 {typeRoute !== "create" &&
                   !user?.data.roles.includes("user") && (
                     <button
-                      // onClick={eliminar}
+                       onClick={aprobar}
                       className="btn btn-secondary"
                       type="submit"
                     >
@@ -554,7 +596,7 @@ function AccidentsCreate({ typeRoute }) {
                 {typeRoute !== "create" &&
                   !user?.data.roles.includes("user") && (
                     <button
-                      // onClick={eliminar}
+                       onClick={rechazar}
                       className="btn btn-secondary"
                       type="submit"
                     >
