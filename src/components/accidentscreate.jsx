@@ -1,11 +1,13 @@
 import React, { useEffect, useState, Component, useMemo } from "react";
 import useAuthContext from "../context/AuthContext";
-import { Button, Form } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom";
+import { Button, Form, Alert, Modal } from "react-bootstrap";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 
 import axios from "../api/axios";
 function AccidentsCreate({ typeRoute }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const [numid, setCedula] = useState("");
   const { user } = useAuthContext();
@@ -38,6 +40,7 @@ function AccidentsCreate({ typeRoute }) {
     } else if (typeRoute === "create" && !user?.data.roles.includes("user")) {
     }
   }, []);
+
   const searchSiniestro = async () => {
     const headers = {
       Authorization: `Bearer ${user?.data.token}`,
@@ -94,7 +97,9 @@ function AccidentsCreate({ typeRoute }) {
       setDatosP(datosp);
     } catch (e) {
       setMessage(
-        <div className="alert alert-danger">No se encontro el usuario</div>
+        <div className="alert alert-danger">
+          El usuario no tiene polizas registradas
+        </div>
       );
     }
   };
@@ -139,6 +144,101 @@ function AccidentsCreate({ typeRoute }) {
     }
   };
 
+  const actualizar = async (event) => {
+    event.preventDefault();
+    if (
+      !fecha_reporte |
+      !fecha_declaracion |
+      !estado_ocu |
+      !ciudad |
+      !lugar |
+      !descripcion
+    ) {
+      setMessage(
+        <div className="alert alert-danger">No debe haber campos vacios</div>
+      );
+      return;
+    }
+
+    const data = {
+      fecha_reporte,
+      fecha_declaracion,
+      estado_ocu,
+      ciudad,
+      lugar,
+      descripcion,
+    };
+
+    try {
+      await axios.put(
+        "/api/siniestros/" + id,
+
+        data
+      );
+
+      setMessage(
+        <div className="alert alert-success">Se actualizo correctamente</div>
+      );
+      navigate("/accidents/view/" + id);
+    } catch (e) {
+      setMessage(
+        <div className="alert alert-danger">No se pudo actualizar</div>
+      );
+    }
+  };
+
+  const eliminarSiniestro = async () => {
+    if (!id) {
+      setShow(true);
+      setMessage(
+        <Alert
+          className="alert alert-danger"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          No existe el siniestro.
+        </Alert>
+      );
+      return;
+    }
+    const headers = {
+      Authorization: `Bearer ${user?.data.token}`,
+    };
+    try {
+      await axios.delete("/api/siniestros/" + id);
+
+      setShow(true);
+      setMessage(
+        <Alert
+          className="alert alert-success"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          Siniestro eliminado.
+        </Alert>
+      );
+      navigate("/accidents");
+    } catch (e) {
+      setShow(true);
+      setMessage(
+        <Alert
+          className="alert alert-danger"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          No se pudo eliminar el siniestro.
+        </Alert>
+      );
+    }
+  };
+
+  const deleteP = () => {
+    eliminarSiniestro();
+    setShow(false);
+  };
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const getSiniestrosCoberturas = async (poliza) => {
     let url = `/api/siniestros-poliza/${poliza}`;
     const response = await axios.get(url);
@@ -165,7 +265,7 @@ function AccidentsCreate({ typeRoute }) {
 
       <div className="col-sm-8 mx-auto">
         <div className="card">
-          <div className="card-header">NUEVO SINIESTRO</div>
+          <div className="card-header"> SINIESTROS</div>
           <div className="card-body">
             <div className="row">
               <div className="col-md-6">
@@ -181,10 +281,16 @@ function AccidentsCreate({ typeRoute }) {
                         //  className="form-control"
                         placeholder="Nro. Documento"
                         onFocus={() => setMessage("")}
+                        disabled={
+                          typeRoute === "view" || typeRoute === "update"
+                        }
                       />
                       <button
                         className="btn btn-outline-secondary"
                         type="submit"
+                        disabled={
+                          typeRoute === "view" || typeRoute === "update"
+                        }
                       >
                         Buscar
                       </button>
@@ -194,9 +300,15 @@ function AccidentsCreate({ typeRoute }) {
               </div>
 
               <div className="col-md-6">
-                <div className="mb-3"style={{
-                      display:typeRoute === "update" || typeRoute === "view" ? "none" : "block",
-                    }}>
+                <div
+                  className="mb-3"
+                  style={{
+                    display:
+                      typeRoute === "update" || typeRoute === "view"
+                        ? "none"
+                        : "block",
+                  }}
+                >
                   <text>{id_poliza}</text>
 
                   <label className="form-label">Numero de Polizas</label>
@@ -218,29 +330,24 @@ function AccidentsCreate({ typeRoute }) {
                   </select>
                 </div>
                 <div
-                    className="mb-3"
-                    style={{
-                      display:  typeRoute === "create" ? "none" : "block",
-                    }}
-                  >
-                    <label className="form-label">Numero de poliza</label>
-                    <input
-                      value={num_poliza}
-                      onChange={(e) =>
-                        setTipoSiniestroDescripcion(e.target.value)
-                      }
-                      type="text"
-                      className="form-control"
-                      placeholder="Numero de poliza"
-                      disabled={
-                        typeRoute === "update" || typeRoute === "view" 
-                      }
-                    />
-                  </div>
-
-               
+                  className="mb-3"
+                  style={{
+                    display: typeRoute === "create" ? "none" : "block",
+                  }}
+                >
+                  <label className="form-label">Numero de poliza</label>
+                  <input
+                    value={num_poliza}
+                    onChange={(e) =>
+                      setTipoSiniestroDescripcion(e.target.value)
+                    }
+                    type="text"
+                    className="form-control"
+                    placeholder="Numero de poliza"
+                    disabled={typeRoute === "update" || typeRoute === "view"}
+                  />
+                </div>
               </div>
-              
             </div>
             <div className="row">
               <div className="col-md-12">
@@ -257,51 +364,49 @@ function AccidentsCreate({ typeRoute }) {
                 </div>
               </div>
             </div>
-            <div className="mb-3" style={{
-                      display: typeRoute === "update" || typeRoute === "view" ? "none" : "block",
-                    }}>
-                  <text>{id_tipo_siniestro_descripcion}</text>
+            <div
+              className="mb-3"
+              style={{
+                display:
+                  typeRoute === "update" || typeRoute === "view"
+                    ? "none"
+                    : "block",
+              }}
+            >
+              <text>{id_tipo_siniestro_descripcion}</text>
 
-                  <label className="form-label">Tipo de Siniestro</label>
+              <label className="form-label">Tipo de Siniestro</label>
 
-                  <select
-                    value={id_tipo_siniestro}
-                    onChange={(e) => setTipoSiniestro(e.target.value)}
-                    className="form-select"
-                  >
-                    <option>Seleccione</option>
+              <select
+                value={id_tipo_siniestro}
+                onChange={(e) => setTipoSiniestro(e.target.value)}
+                className="form-select"
+              >
+                <option>Seleccione</option>
 
-                    {datos?.map((dato) => (
-                      <option
-                        key={dato.id_tsiniestro}
-                        value={dato.id_tsiniestro}
-                      >
-                        {dato.descripcion}
-                      </option>
-                    ))}
-                  </select>
-                
-                </div>
-                <div
-                    className="mb-3"
-                    style={{
-                      display: typeRoute === "create" ? "none" : "block",
-                    }}
-                  >
-                    <label className="form-label">Tipo de siniestro</label>
-                    <input
-                      value={id_tipo_siniestro_descripcion}
-                      onChange={(e) =>
-                        setTipoSiniestroDescripcion(e.target.value)
-                      }
-                      type="text"
-                      className="form-control"
-                      placeholder="Tipo de siniestro"
-                      disabled={
-                        typeRoute === "update" ||  typeRoute === "view" 
-                      }
-                    />
-                  </div>
+                {datos?.map((dato) => (
+                  <option key={dato.id_tsiniestro} value={dato.id_tsiniestro}>
+                    {dato.descripcion}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div
+              className="mb-3"
+              style={{
+                display: typeRoute === "create" ? "none" : "block",
+              }}
+            >
+              <label className="form-label">Tipo de siniestro</label>
+              <input
+                value={id_tipo_siniestro_descripcion}
+                onChange={(e) => setTipoSiniestroDescripcion(e.target.value)}
+                type="text"
+                className="form-control"
+                placeholder="Tipo de siniestro"
+                disabled={typeRoute === "update" || typeRoute === "view"}
+              />
+            </div>
             <div className="row">
               <div className="col-md-4">
                 <div className="mb-3">
@@ -312,6 +417,7 @@ function AccidentsCreate({ typeRoute }) {
                     type="text"
                     className="form-control"
                     placeholder="Estado de ocurrencia"
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
@@ -324,6 +430,7 @@ function AccidentsCreate({ typeRoute }) {
                     type="text"
                     className="form-control"
                     placeholder="Ciúdad de ocurrencia"
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
@@ -336,6 +443,7 @@ function AccidentsCreate({ typeRoute }) {
                     type="text"
                     className="form-control"
                     placeholder="Lugar de ocurrencia"
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
@@ -350,6 +458,7 @@ function AccidentsCreate({ typeRoute }) {
                     onChange={(e) => setFechaSiniestro(e.target.value)}
                     type="date"
                     className="form-control"
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
@@ -361,6 +470,7 @@ function AccidentsCreate({ typeRoute }) {
                     onChange={(e) => setFechaDeclaracion(e.target.value)}
                     type="date"
                     className="form-control"
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
@@ -377,13 +487,14 @@ function AccidentsCreate({ typeRoute }) {
                     className="form-control"
                     cols="30"
                     rows="8"
+                    disabled={typeRoute === "view"}
                   ></textarea>
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="col-md-6 d-grid">
-                {typeRoute === "view" && (
+              <div className="col-md-3 d-grid">
+                {typeRoute === "view" && !user?.data.roles.includes("user") && (
                   <Link
                     to={"/accidents/update/" + id}
                     className="btn btn-primary"
@@ -394,26 +505,64 @@ function AccidentsCreate({ typeRoute }) {
 
                 {typeRoute === "update" && (
                   <button
-                    // onClick={actualizar}
+                    onClick={actualizar}
                     className="btn btn-primary"
                     type="submit"
                   >
                     Guardar
                   </button>
                 )}
-
-                {typeRoute === "create" && (
-                  <button
-                    onClick={registrar}
-                    className="btn btn-primary"
-                    type="submit"
-                  >
-                    Registrar
-                  </button>
-                )}
+                <div className=" d-grid">
+                  {typeRoute === "create" && (
+                    <button
+                      onClick={registrar}
+                      className="btn btn-primary"
+                      type="submit"
+                    >
+                      Registrar
+                    </button>
+                  )}
+                </div>
+               
               </div>
 
-              <div className="col-md-6 d-grid">
+              <div className="col-md-3 d-grid">
+                {typeRoute !== "create" &&
+                  !user?.data.roles.includes("user") && (
+                    <button
+                      onClick={handleShow}
+                      className="btn btn-danger"
+                      type="submit"
+                    >
+                      Eliminar
+                    </button>
+                  )}
+              </div>
+              <div className="col-md-2 d-grid">
+                {typeRoute !== "create" &&
+                  !user?.data.roles.includes("user") && (
+                    <button
+                      // onClick={eliminar}
+                      className="btn btn-secondary"
+                      type="submit"
+                    >
+                      Aprobar
+                    </button>
+                  )}
+              </div>
+              <div className="col-md-2 d-grid">
+                {typeRoute !== "create" &&
+                  !user?.data.roles.includes("user") && (
+                    <button
+                      // onClick={eliminar}
+                      className="btn btn-secondary"
+                      type="submit"
+                    >
+                      Rechazar
+                    </button>
+                  )}
+              </div>
+              <div className="col-md-2 d-grid">
                 <Link to="/accidents" className="btn btn-outline-secondary">
                   Regresar
                 </Link>
@@ -427,6 +576,21 @@ function AccidentsCreate({ typeRoute }) {
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>¡ATENCIÓN!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¿Desea eliminar el siniestro?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={deleteP}>
+            SI
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            NO
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
