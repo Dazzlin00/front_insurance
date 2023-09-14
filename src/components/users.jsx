@@ -56,7 +56,7 @@ const Users = () => {
               <table className="table table table-striped">
                 <thead>
                   <tr>
-                  <th scope="col">Documento</th>
+                  <th scope="col">Nro. Documento</th>
                   <th scope="col">Correo Electrónico</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Rol</th>

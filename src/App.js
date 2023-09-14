@@ -22,6 +22,7 @@ import AccidentsCreate  from "./components/accidentscreate";
 import ReportsCreate  from "./components/reportscreate";
 import MessageView  from "./components/messageview";
 import Users  from "./components/users";
+import UserCreate  from "./components/usercreate";
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
               <Route path="accidents" element={<Accidents />}></Route>
 
               <Route path="users" element={<Users />}></Route>
+              <Route path="users/view/:id" element={<UserCreate typeRoute="view" />}></Route>
+              <Route path="users/update/:id" element={<UserCreate typeRoute="update" />}></Route>
+              <Route path="users/create" element={<UserCreate typeRoute="create" />}></Route>
 
               <Route path="messages" element={<Messages />}></Route>
               <Route path="messages/view/:id" element={<MessageView typeRoute="view" />}></Route>
