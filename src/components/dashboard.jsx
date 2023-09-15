@@ -145,7 +145,7 @@ const Dashboard = () => {
                             {polizas.map((poliza, index) => (
                               <tr key={index + 1}>
                                 <th scope="row">{index + 1}</th>
-                                <td>{poliza.descripcion}</td>
+                                <td>{poliza.tipo_poliza}</td>
                                 <td>{poliza.fecha_inicio}</td>
                                 <td>{poliza.fecha_vencimiento}</td>
                               </tr>

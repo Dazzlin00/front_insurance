@@ -11,19 +11,10 @@ function Accidents() {
   const [mensaje, setMensaje] = useState("");
   const { user, getUser } = useAuthContext();
 
-
-
-
-
-
-
-
-
-
   useEffect(() => {
     if (user?.data.roles.includes("user")) {
       setMensaje("aqui va los siniestros del usuario");
-      getAllMisSiniestros()
+      getAllMisSiniestros();
     } else if (user?.data.roles.includes("agent")) {
       getAllSiniestros();
     }
@@ -63,7 +54,6 @@ function Accidents() {
       // Haz algo con el error
     }
   };
-
 
   return (
     <div className="row" style={{ marginTop: 100 }}>
@@ -159,13 +149,12 @@ function Accidents() {
                       <td>{siniestro.estado}</td>
 
                       <td>
-                      <Link
+                        <Link
                           to={"/accidents/view/" + siniestro.id}
                           className="btn btn-sm btn-primary"
                         >
                           Ver detalle
                         </Link>
-                     
                       </td>
                     </tr>
                   ))}
@@ -175,7 +164,7 @@ function Accidents() {
           </div>
         </div>
       )}
-     {user?.data.roles.includes("user") && (
+      {user?.data.roles.includes("user") && (
         <div className="col-sm-8 mx-auto">
           <div className="card">
             <div className="card-header">
@@ -192,7 +181,7 @@ function Accidents() {
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                   
+
                     <th scope="col">Descripción</th>
                     <th scope="col">Pagado</th>
                     <th scope="col">Fecha de reporte</th>
@@ -206,20 +195,31 @@ function Accidents() {
                   {siniestros.map((siniestro, index) => (
                     <tr>
                       <th scope="row">{siniestro.id}</th>
-                     
+
                       <td>{siniestro.descripcion}</td>
                       <td>Si</td>
                       <td>{siniestro.fecha_reporte}</td>
                       <td>{siniestro.fecha_declaracion}</td>
                       <td>{siniestro.estado}</td>
                       <td>
-                      <Link
-                          to={"/accidents/view/" + siniestro.id}
-                          className="btn btn-sm btn-primary"
-                        >
-                          Ver detalle
-                        </Link>
-                     
+                        <div className="row">
+                          <div className="d-flex">
+                            <Link
+                              to={"/accidents/view/" + siniestro.id}
+                              className="btn btn-sm btn-primary"
+                              style={{ width: "100%" ,height:"30px",margin:"2px"}}
+                            >
+                              Ver detalle
+                            </Link>
+                            <Link
+                              //  to={"/accidents/view/" + siniestro.id}
+                              className="btn btn-sm btn-secondary "
+                              style={{ width: "100%",height:"30px",fontSize:"13px" ,margin:"2px"}}
+                            >
+                              Contactar Agente
+                            </Link>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   ))}
