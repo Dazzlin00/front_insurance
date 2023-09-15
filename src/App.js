@@ -23,6 +23,8 @@ import ReportsCreate  from "./components/reportscreate";
 import MessageView  from "./components/messageview";
 import Users  from "./components/users";
 import UserCreate  from "./components/usercreate";
+import Payments  from "./components/payments";
+import PaymentCreate  from "./components/paymentcreate";
 
 
 function App() {
@@ -48,6 +50,11 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}></Route>
               <Route path="policies" element={<Policies />}></Route>
               <Route path="accidents" element={<Accidents />}></Route>
+
+              <Route path="payments" element={<Payments />}></Route>
+              <Route path="payments/view/:id" element={<PaymentCreate typeRoute="view" />}></Route>
+              <Route path="payments/update/:id" element={<PaymentCreate typeRoute="update" />}></Route>
+              <Route path="payments/create" element={<PaymentCreate typeRoute="create" />}></Route>
 
               <Route path="users" element={<Users />}></Route>
               <Route path="users/view/:id" element={<UserCreate typeRoute="view" />}></Route>
