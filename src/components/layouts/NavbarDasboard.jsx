@@ -30,7 +30,6 @@ const NavbarDashboard = () => {
       <Nav className="me-auto">
         <Nav.Link as={Link} to="/policies">Polizas</Nav.Link>
         <Nav.Link as={Link} to="/accidents">Siniestros</Nav.Link>
-        <Nav.Link as={Link} to="/reports">Reportes</Nav.Link>
         { !user?.data.roles.includes("user") && (<Nav.Link as={Link} to="/messages">Mensajes</Nav.Link>)}
         { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/policiesType">Tipo de Pólizas</Nav.Link>)}
         { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/users">Usuarios</Nav.Link>)}

@@ -42,6 +42,8 @@ function AccidentsCreate({ typeRoute }) {
     }
   }, []);
 
+
+  //------------------------------------VER DETALLE------------------------------------------------
   const searchSiniestro = async () => {
     const headers = {
       Authorization: `Bearer ${user?.data.token}`,
@@ -50,7 +52,7 @@ function AccidentsCreate({ typeRoute }) {
     try {
       let url = `/api/siniestro/`;
       console.log(siniestroId + "este es el id");
-      //  const response = await axios.get(`/api/siniestro/${siniestroId}` , {
+     
       const response = await axios.get(url + `${siniestroId}`, {
         headers,
       });
@@ -73,7 +75,7 @@ function AccidentsCreate({ typeRoute }) {
     }
   };
 
-  //BUSCA EL NUMERO DE POLIZA DEL USUARIO
+  //------------------BUSCA LAS POLIZAS QUE TIENE EL USUARIO--------------------
   const buscar = async (event) => {
     event.preventDefault();
 
@@ -104,7 +106,7 @@ function AccidentsCreate({ typeRoute }) {
       );
     }
   };
-
+//-----------------------REGISTRA UN SINIESTRO---------------------------
   const registrar = async (event) => {
     event.preventDefault();
 
@@ -144,7 +146,7 @@ function AccidentsCreate({ typeRoute }) {
       );
     }
   };
-
+//--------------------ACTUALIZA---------------------------------
   const actualizar = async (event) => {
     event.preventDefault();
     if (
@@ -203,7 +205,7 @@ function AccidentsCreate({ typeRoute }) {
       setMessage(
         <div className="alert alert-success">Solicitud Aprobada</div>
       );
-      navigate("/accidents/view/" + id);
+      navigate("/accidents");
     } catch (e) {
       console.log(e);
     }
@@ -224,11 +226,12 @@ function AccidentsCreate({ typeRoute }) {
       setMessage(
         <div className="alert alert-danger">Solicitud Rechazada</div>
       );
-      navigate("/accidents/view/" + id);
+      navigate("/accidents");
     } catch (e) {
      console.log(e);
     }
   };
+  //---------------------------------- ELIMINA--------------------------------
   const eliminarSiniestro = async () => {
     if (!id) {
       setShow(true);
@@ -281,6 +284,8 @@ function AccidentsCreate({ typeRoute }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
+  //----------------------MUESTRA POR EL NUMERO DE POLIZA EL SINIESTRO
   const getSiniestrosCoberturas = async (poliza) => {
     let url = `/api/siniestros-poliza/${poliza}`;
     const response = await axios.get(url);

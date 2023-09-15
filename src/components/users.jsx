@@ -18,7 +18,7 @@ const Users = () => {
   }, [user, getUser]);
   useEffect(() => {
     getAllUsuarios();
-  }, [user]);
+  }, []);
 
   const getAllUsuarios = async () => {
     const response = await axios.get(`${endpoint}/users`, {

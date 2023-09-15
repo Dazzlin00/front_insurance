@@ -87,6 +87,8 @@ const Policies = () => {
                     <th scope="col">Cliente</th>
                     <th scope="col">Fecha de inicio</th>
                     <th scope="col">Fecha de vencimiento</th>
+                    <th scope="col">Estado</th>
+
                     <th scope="col">Detalle</th>
                   </tr>
                 </thead>
@@ -100,6 +102,7 @@ const Policies = () => {
                       <td>{poliza.name}</td>
                       <td>{poliza.fecha_inicio}</td>
                       <td>{poliza.fecha_vencimiento}</td>
+                      <td>{poliza.estado}</td>
 
                       <td>
                         <Link
@@ -137,6 +140,8 @@ const Policies = () => {
                     <th scope="col">Cliente</th>
                     <th scope="col">Fecha de inicio</th>
                     <th scope="col">Fecha de vencimiento</th>
+                    <th scope="col">Estado</th>
+
                     <th scope="col">Detalle</th>
                   </tr>
                 </thead>
@@ -147,6 +152,7 @@ const Policies = () => {
                       <td>{poliza.name}</td>
                       <td>{poliza.fecha_inicio}</td>
                       <td>{poliza.fecha_vencimiento}</td>
+                      <td>{poliza.estado}</td>
 
                       <td>
                         <Link
@@ -183,6 +189,8 @@ const Policies = () => {
                     <th scope="col">Descripción</th>
                     <th scope="col">Fecha de inicio</th>
                     <th scope="col">Fecha de vencimiento</th>
+                    <th scope="col">Estado</th>
+
                     <th scope="col">Detalle</th>
                   </tr>
                 </thead>
@@ -190,9 +198,10 @@ const Policies = () => {
                   {polizas.map((poliza, index) => (
                     <tr>
                       <th scope="row">{poliza.num_poliza}</th>
-                      <td>{poliza.descripcion}</td>
+                      <td>{poliza.tipo_poliza}</td>
                       <td>{poliza.fecha_inicio}</td>
                       <td>{poliza.fecha_vencimiento}</td>
+                      <td>{poliza.estado}</td>
 
                       <td>
                         <Link
