@@ -10,10 +10,13 @@ const PaymentsCreate = ({ typeRoute }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [message, setMessage] = useState("");
   const { user, getUser } = useAuthContext();
 
+  const [iduser, setIdUser] = useState("");
   const [numid, setCedula] = useState("");
   const [name, setName] = useState("");
   const [numero_transaccion, setNumeroTransaccion] = useState("");
@@ -23,6 +26,7 @@ const PaymentsCreate = ({ typeRoute }) => {
   const [descripcion, setDescripcion] = useState("");
   const [estado, setEstado] = useState("");
   const [estadoVal, setEstadoVal] = useState([]);
+  const [polizas, setPolizas] = useState([]);
 
   const [pagoId, setPagoId] = useState(id);
 
@@ -32,8 +36,6 @@ const PaymentsCreate = ({ typeRoute }) => {
     };
 
     try {
-      console.log(id+"este es el id pago");
-
       let url = user?.data.roles.includes("user")
         ? "/api/user-pago/"
         : "/api/pagos/";
@@ -60,62 +62,55 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
   };
 
-  const eliminarPago = async () => {
+  const deleteP = async () => {
+    eliminarPago();
+    setShow(false);
+
+  }
+
+  const eliminarPago = async (event) => {
     if (!id) {
       setShow(true);
       setMessage(
-        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No existe el pago.</Alert>
+        <Alert
+          className="alert alert-danger"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          No existe el pago.
+        </Alert>
       );
       return;
     }
-    const headers = {
-      Authorization: `Bearer ${user?.data.token}`,
-    };
 
-    /*try {
-      const response = await axios.delete(`/api/pagos/${id}`, {
-        headers,
-      });
+    try {
+      await axios.delete(`/api/pagos/${id}`,{
+        withCredentials: true,
+    });
+
       setShow(true);
-      setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Póliza eliminada.</Alert>);
-      navigate('/payments');
+      setMessage(
+        <Alert
+          className="alert alert-success"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          Mensaje eliminado.
+        </Alert>
+      );
+      navigate("/payments");
     } catch (e) {
       setShow(true);
       setMessage(
-        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se pudo eliminar la póliza.</Alert>
+        <Alert
+          className="alert alert-danger"
+          onClose={() => setShow(false)}
+          dismissible
+        >
+          No se pudo eliminar el pago.
+        </Alert>
       );
-    }*/
-  }
-
-  const eliminar = async (event) => {
-    event.preventDefault();
-
-    const handleClose = () => setShow(false);
-
-    const deleteP = () => {
-      eliminarPago();
-      setShow(false);
-      console.log(show);
-    };
-
-    setShow(true);
-    setMessage(
-      <Modal show={show} onHide={ handleClose }>
-        <Modal.Header closeButton>
-          <Modal.Title>¡ATENCIÓN!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>¿Desea eliminar el pago?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={ () => deleteP() }>
-            SI
-          </Button>
-          <Button variant="secondary" onClick={ () => setShow(false) }>
-            NO
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    );
-
+    }
   };
 
   const buscar = async (event) => {
@@ -124,7 +119,7 @@ const PaymentsCreate = ({ typeRoute }) => {
     if (!numid) {
       setShow(true);
       setMessage(
-        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>La cedula no debe esta vacia</Alert>
+        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>La cedula no debe estar vacia</Alert>
       );
       return;
     }
@@ -152,11 +147,11 @@ const PaymentsCreate = ({ typeRoute }) => {
 
     if (
       !numid |
-      (tipo_pago === "Seleccione") |
-      !fecha_inicio |
-      !fecha_vencimiento |
-      !cobertura |
-      !monto_prima
+      (num_poliza === "Seleccione") |
+      !fecha_pago |
+      !numero_transaccion |
+      !monto |
+      !estado
     ) {
       setShow(true);
       setMessage(
@@ -166,12 +161,13 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
 
     const data = {
-      tipo_pago,
-      fecha_inicio,
-      fecha_vencimiento,
-      cobertura,
-      monto_prima,
-      
+      iduser,
+      numero_transaccion,
+      fecha_pago,
+      monto,
+      num_poliza,
+      descripcion,
+      estado
     };
 
     try {
@@ -182,7 +178,7 @@ const PaymentsCreate = ({ typeRoute }) => {
       );
       setShow(true);
       setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Registro exitoso</Alert>);
-      navigate('/payments/view/'+id);
+      navigate('/payments/view/' + id);
     } catch (e) {
       setShow(true);
       setMessage(
@@ -196,11 +192,10 @@ const PaymentsCreate = ({ typeRoute }) => {
 
     if (
       !numid |
-      (tipo_pago === "Seleccione") |
-      !fecha_inicio |
-      !fecha_vencimiento |
-      !cobertura |
-      !monto_prima
+      (num_poliza === "Seleccione") |
+      !fecha_pago |
+      !numero_transaccion |
+      !monto
     ) {
       setShow(true);
       setMessage(
@@ -209,19 +204,19 @@ const PaymentsCreate = ({ typeRoute }) => {
       return;
     }
     const data = {
-      id_usuario,
-      num_pago,
-      tipo_pago,
-      fecha_inicio,
-      fecha_vencimiento,
-      cobertura
+      iduser,
+      numero_transaccion,
+      fecha_pago,
+      monto,
+      num_poliza,
+      descripcion,
+      estado
     };
-
     try {
-      await axios.post( "/api/pagos", data);
+      await axios.post("/api/pagos", data);
       setShow(true);
       setMessage(<Alert className="alert alert-success" onClose={() => setShow(false)} dismissible>Registro exitoso</Alert>);
-      navigate('/payments/view/'+id);
+      navigate('/payments/view/' + id);
     } catch (e) {
       setShow(true);
       setMessage(
@@ -230,14 +225,12 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
   };
 
-  const getAllPagos = async () => {
-    const response = await axios.get("/api/tipopagos");
-    setDatos(response.data);
-  };
-
-  const getNumeroAleatorio = () => {
-    const random = Math.floor(Math.random() * 9999999999) + 1;
-    return random;
+  const getAllPolizas = async () => {
+    let url = user?.data.roles.includes("user")
+        ? "/api/user-pago/"
+        : "/api/pagos/";
+    const response = await axios.get(url);
+    setPolizas(response.data);
   };
 
   useEffect(() => {
@@ -246,14 +239,12 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
   }, [user, getUser]);
   useEffect(() => {
+    getAllPolizas();
     if (typeRoute === "view") {
       searchPago();
     } else if (typeRoute === "update" && !user?.data.roles.includes("user")) {
       searchPago();
-      getAllPagos();
-    } else if (typeRoute === "create" && !user?.data.roles.includes("user")) {
-      getAllPagos();
-      setNumeroPago(getNumeroAleatorio());
+    } else if (typeRoute === "create") {
     }
   }, [user]);
 
@@ -271,12 +262,12 @@ const PaymentsCreate = ({ typeRoute }) => {
                     <div className="input-group ">
                       <Form.Control
                         type="text"
-                        value={setFechaPago(pago.fecha_pago);}
+                        value={numid}
                         onChange={(e) => setCedula(e.target.value)}
                         //className="form-control"
                         placeholder="Nro. Documento"
                         onFocus={() => setMessage("")}
-                        disabled={typeRoute === "view" || user?.data.roles.includes("user")}
+                        disabled={typeRoute === "view"}
                       />
 
                       {typeRoute !== "view" && (
@@ -298,9 +289,9 @@ const PaymentsCreate = ({ typeRoute }) => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Número de póliza"
+                    placeholder="Usuario"
                     value={name}
-                    onChange={(e) => setNumeroPago(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                     disabled
                   />
                 </div>
@@ -313,120 +304,80 @@ const PaymentsCreate = ({ typeRoute }) => {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Nombre y Apellido / Razón Social"
-                    value={name}
-                    disabled
+                    placeholder="Nro. Transaccion"
+                    value={numero_transaccion}
+                    onChange={(e) => setNumeroTransaccion(e.target.value)}
+                    disabled={typeRoute === "view"}
                   />
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="mb-3">
-                  <label className="form-label">Tipo de póliza</label>
-                  <select
-                    value={tipo_pago}
-                    defaultValue={tipo_pago}
-                    onChange={(e) => setTipoPago(e.target.value)}
-                    className="form-select"
-                    disabled={
-                      typeRoute === "view" || user?.data.roles.includes("user")
-                    }
-                  >
-                    <option>Seleccione</option>
+            <div className="mb-3">
+              <Row>
+                <Col>
+                  <div className="mb-3">
+                    <label className="form-label">Póliza</label>
+                    <select
+                      value={num_poliza}
+                      onChange={(e) => setNumPoliza(e.target.value)}
+                      className="form-select"
+                      disabled={
+                        typeRoute === "view"
+                      }
+                    >
+                      <option>Seleccione</option>
 
-                    { datos?.map((dato) => (
-                        <option key={dato.id} value={dato.id}>
-                          {dato.descripcion}
+                      {polizas?.map((poliza) => (
+                        <option key={poliza.id} value={poliza.num_poliza}>
+                          {poliza.num_poliza}
                         </option>
-                      )) }
-                  </select>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="mb-3">
-                  <Row>
-                    <Col>
-                      <label className="form-label">Fecha inicio</label>
-                      <input
-                        value={fecha_inicio}
-                        onChange={(e) => setFechaInicio(e.target.value)}
-                        type="date"
-                        className="form-control"
-                        disabled={
-                          typeRoute === "view" ||
-                          user?.data.roles.includes("user")
-                        }
-                      />
-                    </Col>
-
-                    <Col>
-                      <label className="form-label">Fecha final</label>
-                      <input
-                        value={fecha_vencimiento}
-                        onChange={(e) => setFechavencimiento(e.target.value)}
-                        type="date"
-                        className="form-control"
-                        disabled={
-                          typeRoute === "view" ||
-                          user?.data.roles.includes("user")
-                        }
-                      />
-                    </Col>
-                  </Row>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="mb-3">
-                  <label className="form-label">Monto prima</label>
-
+                      ))}
+                    </select>
+                  </div>
+                </Col>
+                <Col>
+                  <label className="form-label">Fecha de Pago</label>
                   <input
-                    value={monto_prima}
-                    onChange={(e) => setPrima(e.target.value)}
+                    value={fecha_pago}
+                    onChange={(e) => setFechaPago(e.target.value)}
+                    type="date"
                     className="form-control"
-                    placeholder="Monto prima"
                     disabled={
-                      typeRoute === "view" || user?.data.roles.includes("user")
+                      typeRoute === "view"
                     }
                   />
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="mb-3">
-                  <label className="form-label">Cobertura</label>
-                  <input
-                    value={cobertura}
-                    onChange={(e) => setCobertura(e.target.value)}
-                    type="text"
-                    className="form-control"
-                    placeholder="Cobertura"
-                    disabled={
-                      typeRoute === "view" || user?.data.roles.includes("user")
-                    }
-                  />
-                </div>
-              </div>
+                </Col>
+              </Row>
             </div>
+            <Row>
+              <Col>
+                <label className="form-label">Monto</label>
+                <input
+                  value={monto}
+                  onChange={(e) => setMonto(e.target.value)}
+                  type="text"
+                  className="form-control"
+                  disabled={
+                    typeRoute === "view"
+                  }
+                />
+              </Col>
+            </Row>
             <div className="row">
-              <div className="col-md-12">
+              <div className="col">
                 <div className="mb-3">
-                  <label className="form-label">Forma de pago</label>
-                  <select
-                    value={FormaPago}
-                    onChange={(e) => setFormaPago(e.target.value)}
-                    className="form-select"
+                  <label className="form-label">Descripcion</label>
+                  <textarea
+                    rows={2}
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    className="form-control"
+                    placeholder="Descripcion"
                     disabled={
-                      typeRoute === "view" || user?.data.roles.includes("user")
+                      typeRoute === "view"
                     }
                   >
-                    <option>Seleccione</option>
-                    <option>Efectivo</option>
-                    <option>Transferencia bancaria</option>
-                    <option>Tarjetas de crédito</option>
-                    <option>Cheques</option>
-                  </select>
+                  </textarea>
                 </div>
               </div>
             </div>
@@ -436,15 +387,21 @@ const PaymentsCreate = ({ typeRoute }) => {
                   <label className="form-label">Estado</label>
                   <select
                     value={estado}
-                    defaultValue={"Inactivo"}
                     onChange={(e) => setEstado(e.target.value)}
                     className="form-select"
                     disabled={
                       typeRoute === "view" || user?.data.roles.includes("user")
                     }
                   >
-                    <option selected={estado === "Activo"} key="Activo" value="Activo">Activo</option>
-                    <option selected={estado === "Inactivo"} key="Inactivo" value="Inactivo">Inactivo</option>
+                    {estadoVal?.map((est) => (
+                      <option key={est} value={est}>
+                        {est}
+                      </option>
+                    ))}
+
+                    { typeRoute === "create" &&(
+                      <option value="En espera">En Espera</option>
+                    )}
                   </select>
                 </div>
               </div>
@@ -481,9 +438,9 @@ const PaymentsCreate = ({ typeRoute }) => {
                 )}
               </div>
               <div className="col-md-4 d-grid">
-              {typeRoute !== "create" && !user?.data.roles.includes("user") && (
+                {typeRoute !== "create" && !user?.data.roles.includes("user") && (
                   <button
-                    onClick={eliminar}
+                    onClick={handleShow}
                     className="btn btn-danger"
                     type="submit"
                   >
@@ -497,7 +454,7 @@ const PaymentsCreate = ({ typeRoute }) => {
                 </Link>
               </div>
               {message && (
-                <div className="sucess" style={{ marginTop: 5, position: 'absolute', top: 0}}>
+                <div className="sucess" style={{ marginTop: 5, position: 'absolute', top: 0 }}>
                   {message}
                 </div>
               )}
@@ -505,6 +462,20 @@ const PaymentsCreate = ({ typeRoute }) => {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>¡ATENCIÓN!</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>¿Desea eliminar el pago?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" onClick={deleteP}>
+                        SI
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        NO
+                    </Button>
+                </Modal.Footer>
+            </Modal>
     </div>
   );
 };

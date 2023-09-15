@@ -35,6 +35,7 @@ const Payments = () => {
         if (response.status === 200) {
             // La solicitud se realizó correctamente
             setPagos(response.data);
+            console.log(response.data);
             // Haz algo con las pagos
         } else {
             // La solicitud falló
@@ -64,7 +65,7 @@ const Payments = () => {
 
     return (
         <div className="row" style={{ marginTop: 100 }}>
-            {user?.data.roles.includes("agent") && (
+            {user?.data.roles.includes("user") && (
                 <div className="col-sm-8 mx-auto ">
                     <div className="card">
                         <div className="card-header">
@@ -144,7 +145,7 @@ const Payments = () => {
 
                                             <th scope="row">{pago.num_poliza}</th>
                                             <td>{pago.numero_transaccion}</td>
-                                            <td>{user.name}</td>
+                                            <td>{pago.username}</td>
                                             <td>{pago.monto}</td>
                                             <td>{pago.fecha_pago}</td>
                                             <td>{pago.estado}</td>
@@ -164,7 +165,7 @@ const Payments = () => {
                     </div>
                 </div>
             )}
-            {user?.data.roles.includes("user") && (<div className="col-sm-8 mx-auto ">
+            {user?.data.roles.includes("agent") && (<div className="col-sm-8 mx-auto ">
                 <div className="card">
                     <div className="card-header">
                         PAGOS
@@ -179,8 +180,8 @@ const Payments = () => {
                         <table className="table table table-striped">
                             <thead>
                                 <tr>
-                                <th scope="col">Nro. Transaccion</th>
-                                        <th scope="col">Nro. Poliza</th>
+                                <th scope="col">Nro. Poliza</th>
+                                        <th scope="col">Nro. Transaccion</th>
                                         <th scope="col">Cliente</th>
                                         <th scope="col">Monto</th>
                                         <th scope="col">Fecha de Pago</th>
@@ -193,7 +194,7 @@ const Payments = () => {
                                     <tr>
                                         <th scope="row">{pago.num_poliza}</th>
                                             <td>{pago.numero_transaccion}</td>
-                                            <td>{user.name}</td>
+                                            <td>{pago.name}</td>
                                             <td>{pago.monto}</td>
                                             <td>{pago.fecha_pago}</td>
                                             <td>{pago.estado}</td>
