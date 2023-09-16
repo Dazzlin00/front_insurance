@@ -15,7 +15,7 @@ const Home = () => {
   const handleMessage = async (event) => {
     if (!email | contenido) {
       setMessage(
-        <div className="alert alert-danger">La cedula no debe esta vacia</div>
+        <div className="alert alert-danger">El correo no debe esta vacio</div>
       );
      
     }
