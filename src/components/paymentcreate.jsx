@@ -11,8 +11,10 @@ const PaymentsCreate = ({ typeRoute }) => {
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [shows, setShows] = useState(false);
+
+  const handleClose = () => setShows(false);
+  const handleShow = () => setShows(true);
   const [message, setMessage] = useState("");
   const { user, getUser } = useAuthContext();
 
@@ -27,6 +29,7 @@ const PaymentsCreate = ({ typeRoute }) => {
   const [estado, setEstado] = useState("");
   const [estadoVal, setEstadoVal] = useState([]);
   const [polizas, setPolizas] = useState([]);
+  const [datosp, setDatosP] = React.useState([]);
 
   const [pagoId, setPagoId] = useState(id);
 
@@ -64,17 +67,17 @@ const PaymentsCreate = ({ typeRoute }) => {
 
   const deleteP = async () => {
     eliminarPago();
-    setShow(false);
+    setShows(false);
 
   }
 
   const eliminarPago = async (event) => {
     if (!id) {
-      setShow(true);
+      setShows(true);
       setMessage(
         <Alert
           className="alert alert-danger"
-          onClose={() => setShow(false)}
+          onClose={() => setShows(false)}
           dismissible
         >
           No existe el pago.
@@ -92,7 +95,7 @@ const PaymentsCreate = ({ typeRoute }) => {
       setMessage(
         <Alert
           className="alert alert-success"
-          onClose={() => setShow(false)}
+          onClose={() => setShows(false)}
           dismissible
         >
           Mensaje eliminado.
@@ -100,11 +103,11 @@ const PaymentsCreate = ({ typeRoute }) => {
       );
       navigate("/payments");
     } catch (e) {
-      setShow(true);
+      setShows(true);
       setMessage(
         <Alert
           className="alert alert-danger"
-          onClose={() => setShow(false)}
+          onClose={() => setShows(false)}
           dismissible
         >
           No se pudo eliminar el pago.
@@ -117,9 +120,8 @@ const PaymentsCreate = ({ typeRoute }) => {
     event.preventDefault();
 
     if (!numid) {
-      setShow(true);
       setMessage(
-        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>La cedula no debe estar vacia</Alert>
+        <div className="alert alert-danger">La cedula no debe esta vacia</div>
       );
       return;
     }
@@ -128,16 +130,19 @@ const PaymentsCreate = ({ typeRoute }) => {
     };
 
     try {
-      const response = await axios.get(`/api/search?numid=${numid}`, {
+      const response = await axios.get(`/api/poliza-user?numid=${numid}`, {
         headers,
       });
-      const user = response.data;
-      setName(user.name);
-      setIdUser(user.id);
+      const datosp = response.data;
+      setIdUser(response.data[0].id_usuario);
+      setName(response.data[0].nombre);
+      setNumPoliza(datosp.num_poliza);
+      setDatosP(datosp);
     } catch (e) {
-      setShow(true);
       setMessage(
-        <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>No se encontro el usuario</Alert>
+        <div className="alert alert-danger">
+          El usuario no tiene polizas registradas
+        </div>
       );
     }
   };
@@ -197,7 +202,7 @@ const PaymentsCreate = ({ typeRoute }) => {
       !numero_transaccion |
       !monto
     ) {
-      setShow(true);
+     setShow(true);
       setMessage(
         <Alert className="alert alert-danger" onClose={() => setShow(false)} dismissible>Debe completar todos los datos</Alert>
       );
@@ -225,13 +230,13 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
   };
 
-  const getAllPolizas = async () => {
+  /*const getAllPolizas = async () => {
     let url = user?.data.roles.includes("user")
         ? "/api/user-pago/"
         : "/api/pagos/";
     const response = await axios.get(url);
     setPolizas(response.data);
-  };
+  };*/
 
   useEffect(() => {
     if (!user) {
@@ -239,7 +244,9 @@ const PaymentsCreate = ({ typeRoute }) => {
     }
   }, [user, getUser]);
   useEffect(() => {
-    getAllPolizas();
+
+    //getAllPolizas();
+
     if (typeRoute === "view") {
       searchPago();
     } else if (typeRoute === "update" && !user?.data.roles.includes("user")) {
@@ -247,6 +254,9 @@ const PaymentsCreate = ({ typeRoute }) => {
     } else if (typeRoute === "create") {
     }
   }, [user]);
+
+
+  
 
   return (
     <div className="row" style={{ marginTop: 100 }}>
@@ -327,9 +337,9 @@ const PaymentsCreate = ({ typeRoute }) => {
                     >
                       <option>Seleccione</option>
 
-                      {polizas?.map((poliza) => (
-                        <option key={poliza.id} value={poliza.num_poliza}>
-                          {poliza.num_poliza}
+                      {datosp?.map((dato) => (
+                        <option key={dato.id} value={dato.num_poliza}>
+                          {dato.num_poliza}
                         </option>
                       ))}
                     </select>
@@ -462,7 +472,7 @@ const PaymentsCreate = ({ typeRoute }) => {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal show={shows} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>¡ATENCIÓN!</Modal.Title>
                 </Modal.Header>

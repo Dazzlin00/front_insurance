@@ -62,9 +62,9 @@ const Payments = () => {
         }
     };
 
-
+   
     return (
-        <div className="row" style={{ marginTop: 100 }}>
+        <div className="row" style={{ marginTop: 150 }}>
             {user?.data.roles.includes("user") && (
                 <div className="col-sm-8 mx-auto ">
                     <div className="card">

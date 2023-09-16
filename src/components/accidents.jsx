@@ -56,7 +56,7 @@ function Accidents() {
   };
 
   return (
-    <div className="row" style={{ marginTop: 100 }}>
+    <div className="row" style={{ marginTop: 150 }}>
       {user?.data.roles.includes("agent") && (
         <div className="col-sm-8 mx-auto">
           <div className="card">
@@ -211,13 +211,13 @@ function Accidents() {
                             >
                               Ver detalle
                             </Link>
-                            <Link
+                         {  /*  <Link
                               //  to={"/accidents/view/" + siniestro.id}
                               className="btn btn-sm btn-secondary "
-                              style={{ width: "100%",height:"30px",fontSize:"13px" ,margin:"2px"}}
+                              style={{ width: "100%",height:"50px",fontSize:"13px" ,margin:"2px"}}
                             >
                               Contactar Agente
-                            </Link>
+                            </Link>*/}
                           </div>
                         </div>
                       </td>

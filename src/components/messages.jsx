@@ -40,7 +40,7 @@ const Messages = () => {
   
 
   return (
-    <div className="row" style={{ marginTop: 100 }}>
+    <div className="row" style={{ marginTop: 150 }}>
         <div className="col-sm-8 mx-auto ">
           <div className="card">
             <div className="card-header">

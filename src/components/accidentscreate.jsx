@@ -320,7 +320,6 @@ function AccidentsCreate({ typeRoute }) {
                   <Form onSubmit={buscar}>
                     <label className="form-label">Nro. Documento</label>
                     <div className="input-group ">
-                      <tex>{id_usuario}</tex>
                       <Form.Control
                         type="text"
                         value={numid}

@@ -5,12 +5,16 @@ import axios from "../api/axios";
 import { Button, Form, Alert, Modal } from "react-bootstrap";
 import { Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
+
+import { differenceInDays } from "date-fns";
 
 const PoliciesCreate = ({ typeRoute }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [showp, setShowp] = useState(false);
 
   const [numid, setCedula] = useState("");
   const { user, getUser } = useAuthContext();
@@ -28,6 +32,7 @@ const PoliciesCreate = ({ typeRoute }) => {
   const [id_usuario, setIdUser] = React.useState("");
   const [cobertura, setCobertura] = React.useState("");
   const [monto_cobertura, setMontoCobertura] = React.useState("");
+  const [idCobertura, setIdCobertura] = React.useState("");
 
   const [estado, setEstado] = React.useState("");
   const [polizaId, setPolizaId] = useState(id);
@@ -69,11 +74,11 @@ const PoliciesCreate = ({ typeRoute }) => {
   //
   const eliminarPoliza = async () => {
     if (!id) {
-      setShow(true);
+      setShowp(true);
       setMessage(
         <Alert
           className="alert alert-danger"
-          onClose={() => setShow(false)}
+          onClose={() => setShowp(false)}
           dismissible
         >
           No existe el siniestro.
@@ -87,11 +92,11 @@ const PoliciesCreate = ({ typeRoute }) => {
     try {
       await axios.delete("/api/polizas/" + id);
 
-      setShow(true);
+      setShowp(true);
       setMessage(
         <Alert
           className="alert alert-success"
-          onClose={() => setShow(false)}
+          onClose={() => setShowp(false)}
           dismissible
         >
           Siniestro eliminado.
@@ -99,11 +104,11 @@ const PoliciesCreate = ({ typeRoute }) => {
       );
       navigate("/policies");
     } catch (e) {
-      setShow(true);
+      setShowp(true);
       setMessage(
         <Alert
           className="alert alert-danger"
-          onClose={() => setShow(false)}
+          onClose={() => setShowp(false)}
           dismissible
         >
           No se pudo eliminar el siniestro.
@@ -114,11 +119,11 @@ const PoliciesCreate = ({ typeRoute }) => {
 
   const deleteP = () => {
     eliminarPoliza();
-    setShow(false);
+    setShowp(false);
   };
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShowp(false);
+  const handleShow = () => setShowp(true);
   //------------------------------------BUSCAR USUARIOS REGISTRADOS------------------------------------------------
 
   const buscar = async (event) => {
@@ -198,7 +203,9 @@ const PoliciesCreate = ({ typeRoute }) => {
 
         data
       );
-      setMessage(<div className="alert alert-success">Actualizacion exitosa</div>);
+      setMessage(
+        <div className="alert alert-success">Actualizacion exitosa</div>
+      );
 
       navigate("/policies/view/" + id);
     } catch (e) {
@@ -284,11 +291,11 @@ const PoliciesCreate = ({ typeRoute }) => {
 
     try {
       await axios.post("/api/polizas", data);
-     
+
       setMessage(<div className="alert alert-success">Registro exitoso</div>);
 
       navigate("/policies/view/" + id);
-    }  catch (e) {
+    } catch (e) {
       setMessage(
         <div className="alert alert-danger">No se pudo registrar</div>
       );
@@ -322,12 +329,46 @@ const PoliciesCreate = ({ typeRoute }) => {
     }
   }, [user]);
 
+  function obtenerDiferenciaEnDias(fecha1, fecha2) {
+    const format = "YYYY-MM-DD"; // Formato de las fechas
+
+    const fechaInicio = moment(fecha1, format);
+    const fechaFin = moment(fecha2, format);
+
+    const diferenciaEnDias = fechaFin.diff(fechaInicio, "days");
+
+    return diferenciaEnDias;
+  }
+  //--------------------------------------------------------------------------------------------------
+  //-------------------------------PRIMA--------------------------------------------------------------
+  //--------------------------------------------------------------------------------------------------
+  function calcularPrima (monto) {
+   
+   //DIFERENCIA DE DIAS
+    const diferenciaEnDias = obtenerDiferenciaEnDias(
+      fecha_inicio,
+      fecha_vencimiento
+    );
+   const meses = diferenciaEnDias/30;
+
+   
+   const prima_mensual= monto/meses;
+   return prima_mensual;
+   // console.log(diferenciaEnDias + "dias");
+
+  }
+  const getPrima = async (id_cobertura) => {
+    let url = `/api/cobertura-monto/${id_cobertura}`;
+    const response = await axios.get(url);
+    return response;
+  };
   //----------------------MUESTRA POR EL TIPO DE POLIZA LA COBERTURA ASOCIADA
   const getPolizaCoberturas = async (poliza) => {
-    let url = `/api/cobertura-poliza/${poliza}`;
-    const response = await axios.get(url);
+    let url = `/api/cobertura-poliza/`;
+    const response = await axios.get(url+poliza);
     return response.data;
   };
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -335,8 +376,9 @@ const PoliciesCreate = ({ typeRoute }) => {
         const response = await getPolizaCoberturas(tipo_poliza);
 
         setDatos2(response);
-        console.log(response);
-        setPrima(100);
+        console.log(response.data);
+        
+       
       } catch (error) {
         console.error(error);
         setDatos2([]);
@@ -344,15 +386,44 @@ const PoliciesCreate = ({ typeRoute }) => {
     };
     fetchData();
   }, [tipo_poliza]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        if (typeRoute === "create") {
+          const response = await getPrima(cobertura);
+          const montoc=response.data;
+          //setDatos2(response);
+         setPrima(calcularPrima (montoc))
+          console.log(montoc+ "este es el monto");
+
+        }
+       
+        
+       
+      } catch (error) {
+        console.error(error);
+       // setDatos2([]);
+      }
+    };
+    fetchData();
+  }, [cobertura,fecha_inicio,fecha_vencimiento]);
+
   return (
     <div className="row" style={{ marginTop: 100 }}>
+
+        
+
       <div className="col-sm-8 mx-auto">
         <div className="card">
+          
           <div className="card-header">PÓLIZA</div>
           <div className="card-body">
             <div className="row">
               <div className="col-md-6">
                 <div className="mb-3">
+               
                   <Form onSubmit={buscar}>
                     <label className="form-label">Nro. Documento</label>
                     <div className="input-group ">
@@ -384,7 +455,6 @@ const PoliciesCreate = ({ typeRoute }) => {
 
               <div className="col-md-6">
                 <div className="mb-3">
-
                   <label className="form-label">Número de póliza</label>
                   <input
                     type="text"
@@ -482,9 +552,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                 </div>
               </div>
               <div className="col-md-6">
-
                 <label className="form-label">Cobertura</label>
-
                 <select
                   value={cobertura}
                   onChange={(e) => setCobertura(e.target.value)}
@@ -498,7 +566,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                   </option>
 
                   {datos2?.map((dato2) => (
-                    <option key={dato2.id_cobertura} value={dato2.id_cobertura}>
+                    <option  key={dato2.id_cobertura} value={dato2.id_cobertura}>
                       {dato2.coberturas}
                     </option>
                   ))}
@@ -524,25 +592,7 @@ const PoliciesCreate = ({ typeRoute }) => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="mb-3">
-                  <label className="form-label">Forma de pago</label>
-                  <select
-                    value={FormaPago}
-                    onChange={(e) => setFormaPago(e.target.value)}
-                    className="form-select"
-                    disabled={typeRoute === "view"}
-                  >
-                    <option>Seleccione</option>
-                    <option>Efectivo</option>
-                    <option>Transferencia bancaria</option>
-                    <option>Tarjetas de crédito</option>
-                    <option>Cheques</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+            
             <div className="row">
               <div className="col-md-12"></div>
             </div>
@@ -630,7 +680,7 @@ const PoliciesCreate = ({ typeRoute }) => {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose} animation={false}>
+      <Modal show={showp} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>¡ATENCIÓN!</Modal.Title>
         </Modal.Header>

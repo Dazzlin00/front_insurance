@@ -119,11 +119,11 @@ const Dashboard = () => {
   return (
     <div>
       {user && (
-        <div style={{ marginTop: 100 }}>
+        <div style={{ marginTop: 150 }}>
           {/* CLIENTE */}
           {user?.data.roles.includes("user") && (
             <Container style={{ width: "1000px" }}>
-              ¡Bienvenido, {user?.data.name}!
+             
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
                   <Card className="shadow">
@@ -172,7 +172,7 @@ const Dashboard = () => {
                               <th scope="col">#</th>
                               <th scope="col">Descripción</th>
                               <th scope="col">Fecha de Reporte</th>
-                              <th scope="col">Fecha de Solucion</th>
+                              <th scope="col">Fecha de Declaracion</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -181,6 +181,8 @@ const Dashboard = () => {
                                 <th scope="row">{index + 1}</th>
                                 <td>{siniestro.descripcion}</td>
                                 <td>{siniestro.fecha_reporte}</td>
+                                <td>{siniestro.fecha_declaracion}</td>
+
                               </tr>
                             ))}
                           </tbody>
@@ -196,7 +198,6 @@ const Dashboard = () => {
           {/* Agente */}
           {user?.data.roles.includes("agent") && (
             <Container style={{ width: "1000px" }}>
-              ¡Bienvenido, {user?.data.name}!
               <Row className="vh-500 d-flex justify-content-center">
                 <Col md={22} lg={50} xs={12}>
                   <Card className="shadow">
@@ -212,7 +213,7 @@ const Dashboard = () => {
                               <th scope="col">ID del Usuario</th>
                               <th scope="col">Usuario</th>
                               <th scope="col">Correo</th>
-                              <th scope="col">Ingreso</th>
+                            
                             </tr>
                           </thead>
                           <tbody>
@@ -248,6 +249,7 @@ const Dashboard = () => {
                               
                               <th scope="col">Descripción</th>
                               <th scope="col">Fecha de Reporte</th>
+                              <th scope="col">Fecha de Declaracion</th>
                               <th scope="col">Estado</th>
                             </tr>
                           </thead>
@@ -257,6 +259,7 @@ const Dashboard = () => {
                                 <th scope="row">{index + 1}</th>
                                 <td>{siniestro.descripcion}</td>
                                 <td>{siniestro.fecha_reporte}</td>
+                                <td>{siniestro.fecha_declaracion}</td>
                                 <td>{siniestro.estado}</td>
                               </tr>
                             ))}

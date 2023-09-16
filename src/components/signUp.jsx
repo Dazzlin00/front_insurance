@@ -50,7 +50,7 @@ const SignUp = () => {
                     <Form onSubmit={handleregister}>
                       <div className="input-group mb-3">
                         <span className="input-group-text" id="basic-addon1">
-                          @
+                          
                         </span>
                         <input
                           value={name}
@@ -64,8 +64,8 @@ const SignUp = () => {
                       </div>
 
                       <div className="input-group mb-3">
-                        <span className="input-group-text" id="">
-                          @
+                        <span className="input-group-text" id="basic-addon1">
+                        
                         </span>
                         <input
                           value={email}
@@ -80,7 +80,7 @@ const SignUp = () => {
 
                       <div className="input-group mb-3">
                         <span className="input-group-text" id="basic-addon1">
-                          @
+                        
                         </span>
                         <input
                           value={password}
@@ -94,7 +94,7 @@ const SignUp = () => {
                       </div>
                       <div className="input-group mb-3">
                         <span className="input-group-text" id="basic-addon1">
-                          @
+                         
                         </span>
                         <input
                           value={password_confirmation}
@@ -107,15 +107,7 @@ const SignUp = () => {
                         />
                       </div>
 
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          value=""
-                          id="flexCheckDefault"
-                        />
-                       
-                      </div>
+                     
                       {errors && <text className="error">{errors}</text>}
                       {success && <text className="sucess">{success}</text>}
                       {message && <text className="sucess">{message}</text>}

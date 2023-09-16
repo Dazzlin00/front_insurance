@@ -63,7 +63,7 @@ const Policies = () => {
   
 
   return (
-    <div className="row" style={{ marginTop: 100 }}>
+    <div className="row" style={{ marginTop: 150 }}>
       {user?.data.roles.includes("agent") && (
         <div className="col-sm-8 mx-auto ">
           <div className="card">
@@ -76,9 +76,9 @@ const Policies = () => {
                 Nueva póliza
               </NavLink>
             </div>
-            <div className="card-body">
-              <table className="table table table-striped">
-                <thead>
+            <div className="card-body  ">
+              <table  className="table table table-striped ">
+                <thead >
                   <tr>
                   <th scope="col">Nro. Poliza</th>
                   <th scope="col">Tipo de poliza</th>
