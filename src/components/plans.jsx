@@ -29,8 +29,8 @@ function Plans() {
 
 
   return (
-    <Container fluid style={{ marginTop: "105px", color: "#333333", padding: "0", overflowX: 'hidden' }}>
-      <div className='pt-5'>
+    <div fluid style={{ marginTop: "100px", backgroundColor:"#EAEAEA", color: "#333333", padding: "0", overflowX: 'hidden' }}>
+      <div className='pt-5' style={{height:"500px"}}>
         <h3 style={{
           color: "#333333",
           textAlign: "center",
@@ -62,11 +62,11 @@ function Plans() {
           ))}
         </Row>
       </div>
-      <Row className="mt-5 py-5" style={{ backgroundColor: "#87CEEB" }}>
+      <Row className="mt-5 py-5" style={{height:"100%",marginTop:"100px", backgroundColor: "#87CEEB" }}>
         <p>Para más información a cerca de los planes ofrecidos consulta con soporte.</p>
         </Row>
       <Footer />
-    </Container>
+    </div>
   )
 }
 
