@@ -25,7 +25,8 @@ import Users  from "./components/users";
 import UserCreate  from "./components/usercreate";
 import Payments  from "./components/payments";
 import PaymentCreate  from "./components/paymentcreate";
-
+import PoliciesType  from "./components/policiesType";
+import PoliciesTypeCreate  from "./components/policiesTypecreate";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
               <Route path="dashboard" element={<Dashboard />}></Route>
               <Route path="policies" element={<Policies />}></Route>
               <Route path="accidents" element={<Accidents />}></Route>
+              <Route path="policiesType" element={<PoliciesType />}></Route>
 
               <Route path="payments" element={<Payments />}></Route>
               <Route path="payments/view/:id" element={<PaymentCreate typeRoute="view" />}></Route>
@@ -74,6 +76,10 @@ function App() {
               <Route path="policies/view/:id" element={<PoliciesCreate typeRoute="view" />}></Route>
               <Route path="policies/update/:id" element={<PoliciesCreate typeRoute="update" />}></Route>
               <Route path="policies/create" element={<PoliciesCreate typeRoute="create" />}></Route>
+
+              <Route path="policiesType/view/:id" element={<PoliciesTypeCreate typeRoute="view" />}></Route>
+              <Route path="policiesType/update/:id" element={<PoliciesTypeCreate typeRoute="update" />}></Route>
+              <Route path="policiesType/create" element={<PoliciesTypeCreate typeRoute="create" />}></Route>
               
               <Route path="/accidents-create" element={<AccidentsCreate typeRoute="create" />}></Route>
               <Route path="/accidents/view/:id" element={<AccidentsCreate typeRoute="view" />}></Route>
