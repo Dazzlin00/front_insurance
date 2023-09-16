@@ -10,8 +10,15 @@ const Home = () => {
   const [email, setEmail] = useState("");
   const [contenido, setContenido] = useState("");
   const { mensajes, errors, success } = useAuthContext();
+  const [message, setMessage] = React.useState("");
 
   const handleMessage = async (event) => {
+    if (!email | contenido) {
+      setMessage(
+        <div className="alert alert-danger">La cedula no debe esta vacia</div>
+      );
+     
+    }
     event.preventDefault();
     mensajes({ email, contenido });
   };
@@ -83,6 +90,8 @@ const Home = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Ingrese su correo"
+                  onFocus={() => setMessage("")}
+
                 />
               </Form.Group>
 
@@ -93,16 +102,23 @@ const Home = () => {
                   value={contenido}
                   onChange={(e) => setContenido(e.target.value)}
                   placeholder="Mensaje"
+                  onFocus={() => setMessage("")}
+
                 />
                 {errors && <text>{errors}</text>}
                 {success && <text>{success}</text>}
+
+               
               </Form.Group>
+              
               <div className="d-grid">
                 <Button variant="primary" type="submit">
                   Enviar
                 </Button>
               </div>
+             
             </Form>
+            
           </div>
 
           <div className="col">

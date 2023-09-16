@@ -155,15 +155,31 @@ const PoliciesCreate = ({ typeRoute }) => {
       setIdUser(user.id);
     } catch (e) {
       setShow(true);
-      setMessage(
-        <Alert
-          className="alert alert-danger"
-          onClose={() => setShow(false)}
-          dismissible
-        >
-          No se encontro el usuario
-        </Alert>
-      );
+      
+      if (user?.data.roles.includes("user")) {
+        setMessage(
+          <Alert
+            className="alert alert-danger"
+            onClose={() => setShow(false)}
+            dismissible
+          >
+           Tu información personal está desactualizada. Para crear pólizas, actualiza tu información
+          </Alert>
+        );
+       
+      } else  {
+       
+        setMessage(
+          <Alert
+            className="alert alert-danger"
+            onClose={() => setShow(false)}
+            dismissible
+          >
+           No se ha encontro el usuario
+          </Alert>
+        );
+      }
+      
     }
   };
   //------------------------------------ACTUALIZAR------------------------------------------------
@@ -411,7 +427,7 @@ const PoliciesCreate = ({ typeRoute }) => {
   }, [cobertura,fecha_inicio,fecha_vencimiento]);
 
   return (
-    <div className="row" style={{ marginTop: 100 }}>
+    <div className="row" style={{ marginTop: 150 }}>
 
         
 
