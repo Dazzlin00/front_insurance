@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Row, ListGroup } from "react-bootstrap";
+import { Container, Card, Row, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Footer from "./layouts/footer";
 import axios from "../api/axios";
@@ -29,8 +29,15 @@ function Plans() {
 
 
   return (
-    <div style={{ marginTop: "105px", color: "#333333" }}>
+    <Container fluid style={{ marginTop: "105px", color: "#333333", padding: "0", overflowX: 'hidden' }}>
       <div className='pt-5'>
+        <h3 style={{
+          color: "#333333",
+          textAlign: "center",
+          textJustify: "inter-word",
+          margin: 10,
+        }}
+        >Planes</h3>
         <Row className='d-flex justify-content-center'>
           {tipoPolizas.map((tipoPoliza, index) => (
             <Card style={{ width: '18rem', margin: '2rem' }}>
@@ -57,10 +64,9 @@ function Plans() {
       </div>
       <Row className="mt-5 py-5" style={{ backgroundColor: "#87CEEB" }}>
         <p>Para más información a cerca de los planes ofrecidos consulta con soporte.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate eligendi saepe alias quasi modi et. Maiores est asperiores, beatae repellendus amet impedit dolorem quaerat dolorum? Natus accusantium vel minus aspernatur?.</p>
-      </Row>
+        </Row>
       <Footer />
-    </div>
+    </Container>
   )
 }
 
