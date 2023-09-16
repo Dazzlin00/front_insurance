@@ -13,7 +13,7 @@ const PoliciesType = () => {
 
   useEffect(() => {
     getAllPoliciesTypes();
-  }, []);
+  }, [user]);
 
   const getAllPoliciesTypes = async () => {
     const response = await axios.get(`${endpoint}/tipo-polizas`, {
@@ -35,13 +35,13 @@ const PoliciesType = () => {
   
 
   return (
-    <div className="row" style={{ marginTop: 100 }}>
+    <div className="row" style={{ marginTop: 150 }}>
         <div className="col-sm-8 mx-auto ">
           <div className="card">
             <div className="card-header">
               TIPOS DE PÓLIZA
               <NavLink
-                to="/users/create"
+                to="/policiesType/create"
                 className="btn btn-sm btn-primary float-end"
               >
                 Nuevo Tipo
@@ -52,7 +52,7 @@ const PoliciesType = () => {
                 <thead>
                   <tr>
                   <th scope="col">Tipo</th>
-                  <th scope="col">Coberturas</th>
+                  <th scope="col">Cantidad de Coberturas</th>
                   <th scope="col">Creada</th>
                   <th scope="col">Detalle</th>
                   </tr>

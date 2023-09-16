@@ -37,6 +37,8 @@ const NavbarDashboard = () => {
         { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/policiesType">Tipo Pólizas</Nav.Link>)}
         { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/users">Usuarios</Nav.Link>)}
       {/*  <Nav.Link as={Link} to="/configuration">Configuración</Nav.Link>*/}
+     
+     
       </Nav>
  
       <NavDropdown title={"Hola, "+ user?.data.name} id="collapsible-nav-dropdown">
