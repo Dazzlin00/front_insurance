@@ -33,7 +33,7 @@ const NavbarDashboard = () => {
         <Nav.Link as={Link} to="/payments">Pagos</Nav.Link>
         <Nav.Link as={Link} to="/reports">Reportes</Nav.Link>
         { !user?.data.roles.includes("user") && (<Nav.Link as={Link} to="/messages">Mensajes</Nav.Link>)}
-        { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/policiesType">Tipo de Pólizas</Nav.Link>)}
+        { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/policiesType">Tipo Pólizas</Nav.Link>)}
         { user?.data.roles.includes("admin") && (<Nav.Link as={Link} to="/users">Usuarios</Nav.Link>)}
         <Nav.Link as={Link} to="/configuration">Configuración</Nav.Link>
       </Nav>
