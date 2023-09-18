@@ -92,7 +92,7 @@ const PoliciesCreate = ({ typeRoute }) => {
     try {
       await axios.delete("/api/polizas/" + id);
 
-      setShowp(true);
+     
       setMessage(
         <Alert
           className="alert alert-success"
@@ -104,14 +104,14 @@ const PoliciesCreate = ({ typeRoute }) => {
       );
       navigate("/policies");
     } catch (e) {
-      setShowp(true);
+     
       setMessage(
         <Alert
           className="alert alert-danger"
           onClose={() => setShowp(false)}
           dismissible
         >
-          No se pudo eliminar el siniestro.
+          No se pudo eliminar la poliza.
         </Alert>
       );
     }
@@ -208,7 +208,7 @@ const PoliciesCreate = ({ typeRoute }) => {
     }
 
     const data = {
-      //tipo_poliza,
+      monto_prima,
       fecha_inicio,
       fecha_vencimiento,
     };

@@ -355,7 +355,6 @@ function AccidentsCreate({ typeRoute }) {
                         : "block",
                   }}
                 >
-                  <text>{id_poliza}</text>
 
                   <label className="form-label">Numero de Polizas</label>
                   <select

@@ -13,9 +13,10 @@ const MessageView = ({ typeRoute }) => {
 
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
+    const [showp, setShowp] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => setShowp(false);
+    const handleShow = () => setShowp(true);
 
     const [message, setMessage] = React.useState("");
     const [email, setEmail] = useState("");
@@ -88,11 +89,11 @@ const MessageView = ({ typeRoute }) => {
 
     const eliminarMensaje = async () => {
         if (!id) {
-          setShow(true);
+          setShowp(true);
           setMessage(
             <Alert
               className="alert alert-danger"
-              onClose={() => setShow(false)}
+              onClose={() => setShowp(false)}
               dismissible
             >
               No existe el mensaje.
@@ -106,11 +107,11 @@ const MessageView = ({ typeRoute }) => {
             withCredentials: true,
         });
     
-          setShow(true);
+         
           setMessage(
             <Alert
               className="alert alert-success"
-              onClose={() => setShow(false)}
+              onClose={() => setShowp(false)}
               dismissible
             >
               Mensaje eliminado.
@@ -118,11 +119,11 @@ const MessageView = ({ typeRoute }) => {
           );
           navigate("/messages");
         } catch (e) {
-          setShow(true);
+          
           setMessage(
             <Alert
               className="alert alert-danger"
-              onClose={() => setShow(false)}
+              onClose={() => setShowp(false)}
               dismissible
             >
               No se pudo eliminar el mensaje.
@@ -133,7 +134,7 @@ const MessageView = ({ typeRoute }) => {
 
       const deleteM = () => {
         eliminarMensaje();
-        setShow(false);
+        setShowp(false);
       };
 
     return (
@@ -278,7 +279,7 @@ const MessageView = ({ typeRoute }) => {
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose} animation={false}>
+            <Modal show={showp} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>¡ATENCIÓN!</Modal.Title>
                 </Modal.Header>

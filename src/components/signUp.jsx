@@ -114,7 +114,7 @@ const SignUp = () => {
 
                       <div className="d-grid">
                         <Button variant="primary" type="submit">
-                          Crear cuenta
+                        Registrarse 
                         </Button>
                       </div>
                     </Form>

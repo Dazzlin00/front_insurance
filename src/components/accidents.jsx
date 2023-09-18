@@ -207,7 +207,7 @@ function Accidents() {
                             <Link
                               to={"/accidents/view/" + siniestro.id}
                               className="btn btn-sm btn-primary"
-                              style={{ width: "100%" ,height:"30px",margin:"2px"}}
+                              style={{ width: "100%" ,height:"50px",margin:"2px"}}
                             >
                               Ver detalle
                             </Link>
